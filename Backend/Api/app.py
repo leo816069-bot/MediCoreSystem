@@ -7,9 +7,36 @@ from psycopg2.extras import RealDictCursor
 app = Flask(__name__)
 CORS(app)
 
-# 🌐 Configuración dinámica: En Render lee la nube; localmente usa valores por defecto
-# Nota: Render te dará un enlace completo llamado DATABASE_URL que incluye todo automáticamente
+# 🌐 Configuración dinámica de la base de datos
 DATABASE_URL = os.environ.get('DATABASE_URL')
+
+def inicializar_base_de_datos():
+    """Crea la tabla usuarios automáticamente si no existe al arrancar la app."""
+    if not DATABASE_URL:
+        print("⚠️ DATABASE_URL no encontrada. Saltando inicialización automática.")
+        return
+        
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        
+        # Ejecuta la creación de la tabla de forma automática si no existe
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS usuarios (
+                id SERIAL PRIMARY KEY,
+                nombre VARCHAR(150) NOT NULL,
+                email VARCHAR(150) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                rol VARCHAR(50) NOT NULL DEFAULT 'medico'
+            );
+        """)
+        
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("✅ Estructura de la base de datos verificada/creada correctamente.")
+    except Exception as e:
+        print(f"❌ Error al inicializar la base de datos: {e}")
 
 def conectar_db():
     if DATABASE_URL:
@@ -78,6 +105,9 @@ def registro():
         return jsonify({"success": True, "message": "Usuario registrado exitosamente."}), 201
     except Exception as e:
         return jsonify({"success": False, "message": f"Error al registrar: {str(e)}"}), 500
+
+# 🚀 Inicializar la base de datos antes de arrancar el servidor web
+inicializar_base_de_datos()
 
 if __name__ == '__main__':
     puerto = int(os.environ.get("PORT", 5000))
