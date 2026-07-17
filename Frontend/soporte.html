@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCore Systems - Soporte y Contacto</title>
+    <link rel="stylesheet" href="Frontend/css/styles.css">
+    <style>
+        header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+nav {
+    display: flex;
+    gap: 0.75rem; /* Separación simétrica entre los botones */
+    align-items: center;
+}
+
+/* Estilo base para TODOS los botones del menú (Inicio, Características, Soporte) */
+nav a {
+    text-decoration: none !important; /* Elimina la línea subrayada estándar */
+    color: #0284c7 !important; /* Tono celeste principal corporativo */
+    background-color: #f0f9ff; /* Fondo celeste muy tenue y limpio */
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px; /* Bordes redondeados sutiles acordes a la app */
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease; /* Transición suave para el efecto de brillo */
+    border: 1px solid rgba(2, 132, 199, 0.15);
+    display: inline-block;
+}
+
+/* EFECTO HOVER: Brillo celeste vibrante cuando el cursor pasa por encima */
+nav a:hover {
+    color: #ffffff !important;
+    background-color: #0284c7; /* Se vuelve celeste sólido */
+    border-color: #0284c7;
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.6), 0 4px 6px rgba(2, 132, 199, 0.2); /* Efecto de brillo neón */
+    transform: translateY(-1px); /* Pequeño salto interactivo profesional */
+}
+
+/* Estilo destacado exclusivo para el botón de "Iniciar Sesión" */
+nav a.btn-login {
+    color: #ffffff !important;
+    background-color: #0081c9; /* Un tono celeste un poco más intenso */
+    border-color: #0081c9;
+}
+
+nav a.btn-login:hover {
+    background-color: #026ba3;
+    border-color: #026ba3;
+    box-shadow: 0 0 15px rgba(0, 129, 201, 0.7); /* Brillo más fuerte para destacar la acción */
+}
+        .support-wrapper {
+            max-width: 1000px;
+            margin: 4rem auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
+            padding: 0 2rem;
+        }
+        .contact-info-box {
+            background-color: #f8fafc;
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid rgba(100, 116, 139, 0.1);
+        }
+        .comment-form-box {
+            background-color: #ffffff;
+            border: 1px solid rgba(100, 116, 139, 0.15);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+        }
+        .form-element {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+        .form-element input, .form-element textarea {
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .form-element textarea { resize: vertical; height: 120px; }
+        @media (max-width: 768px) {
+            .support-wrapper { grid-template-columns: 1fr; gap: 2rem; margin: 2rem auto; }
+        }
+    </style>
+</head>
+<body style="background-color: #fafafa;">
+
+    <header style="background:#ffffff; border-bottom:1px solid #e2e8f0; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:1.4rem; color:#0284c7; font-weight:700;">MediCore<span style="color:#14b8a6; font-weight:300;">Systems</span></div>
+       <!-- Busca tu menú de navegación y déjalo así -->
+<nav>
+    <a href="../index.html">Inicio</a> <!-- ⬅️ Cambiado aquí -->
+    <a href="caracteristicas.html">Características</a>
+    <a href="soporte.html">Soporte</a>
+    <a href="login.html" class="btn-login">Iniciar Sesión</a>
+</nav>
+    </header>
+
+    <div class="support-wrapper">
+        <div class="contact-info-box">
+            <h2 style="color:#1e293b; margin-bottom:1rem; font-weight:700;">Centro de Soporte</h2>
+            <p style="color:#64748b; margin-bottom:2rem; font-size:0.95rem; line-height:1.5;">¿Necesitas ayuda para configurar tu consultorio o requieres una demostración guiada? Comunícate directamente con nuestro equipo.</p>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <span style="font-size:1.2rem;"></span> <strong>WhatsApp Demo:</strong>
+                <p style="color:#0284c7; margin:0.25rem 0 0 1.5rem; font-weight:600;">81 1760 8852</p>
+            </div>
+            <div>
+                <span style="font-size:1.2rem;"></span> <strong>Correo Electrónico:</strong>
+                <p style="color:#64748b; margin:0.25rem 0 0 1.5rem;">soporte@medicore.com</p>
+            </div>
+        </div>
+
+        <div class="comment-form-box">
+            <h3 style="color:#1e293b; margin-bottom:0.5rem; font-weight:700;">Déjanos tus Comentarios</h3>
+            <p style="color:#64748b; margin-bottom:1.5rem; font-size:0.85rem;">Tus sugerencias nos ayudan a mejorar el sistema clínico de forma constante.</p>
+            
+            <form id="soporteForm" onsubmit="enviarComentario(event)">
+                <div class="form-element">
+                    <label style="font-weight:600; font-size:0.9rem; color:#334155;">Nombre Clínico / Doctor</label>
+                    <input type="text" id="nombreContacto" placeholder="Ej. Dr. Leobardo Farías" required>
+                </div>
+                <div class="form-element">
+                    <label style="font-weight:600; font-size:0.9rem; color:#334155;">Correo de Contacto</label>
+                    <input type="email" id="correoContacto" placeholder="ejemplo@medicore.com" required>
+                </div>
+                <div class="form-element">
+                    <label style="font-weight:600; font-size:0.9rem; color:#334155;">Mensaje o Sugerencia</label>
+                    <textarea id="mensajeContacto" placeholder="Escribe aquí tus dudas o comentarios sobre el panel..." required></textarea>
+                </div>
+                <button type="submit" style="width:100%; background:#14b8a6; color:white; border:none; padding:0.8rem; border-radius:8px; font-weight:700; cursor:pointer;">Enviar Mensaje</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function enviarComentario(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombreContacto').value;
+            alert(`¡Gracias ${nombre}! Tu comentario ha sido recibido de forma exitosa. Nos pondremos en contacto si es necesario.`);
+            document.getElementById('soporteForm').reset();
+        }
+    </script>
+</body>
+</html>

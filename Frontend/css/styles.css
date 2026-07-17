@@ -1,0 +1,2215 @@
+/* ==========================================================================
+   1. VARIABLES DE COLOR (PALETA AZUL CLARO Y VERDE MENTA)
+   ========================================================================== */
+:root {
+    --bg-light: #f2f8f6;       /* Fondo general verde menta extremadamente pálido */
+    --text-main: #1e293b;      /* Azul pizarra oscuro para textos principales */
+    --text-muted: #64748b;    /* Gris azulado para descripciones */
+    
+    --blue-light: #e0f2fe;     /* Azul claro para fondos secundarios */
+    --blue-brand: #0284c7;     /* Azul principal (Cielo/Océano) */
+    --blue-hover: #0369a1;     /* Azul oscuro de respaldo */
+    
+    --menta-brand: #2dd4bf;    /* Verde menta brillante para acentos e interactividad */
+    --menta-light: #f0fdfa;    /* Fondo suave verde menta */
+    --menta-text: #0f766e;     /* Verde menta oscuro para textos legibles */
+    
+    --border-card: rgba(226, 232, 240, 0.8);
+}
+
+/* ==========================================================================
+   2. ESTILOS GLOBALES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+   3. MENÚ SUPERIOR (NAVBAR)
+   ========================================================================== */
+.main-navbar {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px); /* Efecto esmerilado moderno */
+    border-bottom: 1px solid var(--border-card);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 8%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-logo {
+    font-size: 1.4rem;
+    color: var(--blue-brand);
+}
+
+.nav-logo span {
+    color: var(--menta-text);
+    font-weight: 300;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--blue-brand);
+}
+
+/* Botón transparente del menú superior */
+.btn-nav-login {
+    background-color: transparent;
+    color: var(--blue-brand);
+    border: 2px solid var(--blue-brand);
+    padding: 0.5rem 1.2rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+/* Hover del botón del menú: Cambia a verde menta sólido con texto oscuro */
+.btn-nav-login:hover {
+    background-color: var(--menta-brand);
+    border-color: var(--menta-brand);
+    color: #1e293b;
+    box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
+}
+
+/* ==========================================================================
+   4. CONTENEDOR CON IMAGEN DE FONDO CLÍNICO (OPACIDAD AJUSTADA)
+   ========================================================================== */
+.hero-overlay-wrapper {
+    /* Fondo optimizado para que la imagen del consultorio se vea clara y nítida */
+    background: linear-gradient(rgba(242, 248, 246, 0.35), rgba(242, 248, 246, 0.5)), 
+                url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    padding: 4rem 8%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.hero-container {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+}
+
+@media (max-width: 968px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+/* ==========================================================================
+   5. SECCIÓN IZQUIERDA (CONTENIDO)
+   ========================================================================== */
+.hero-main-content h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 1.5rem 0;
+    color: var(--text-main);
+}
+
+.badge-tag {
+    display: inline-block;
+    background-color: var(--blue-light);
+    color: var(--blue-brand);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.hero-description, .hero-subdescription {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+}
+
+.hero-highlight {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: var(--menta-text);
+}
+
+.cta-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Botón principal de la sección izquierda */
+.btn-primary {
+    background-color: var(--blue-brand);
+    color: #ffffff;
+    border: none;
+    padding: 0.9rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2);
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+/* Hover del botón principal: Cambia dinámicamente a verde menta brillante */
+.btn-primary:hover {
+    background-color: var(--menta-brand);
+    color: #1e293b; /* Texto oscuro para perfecto contraste */
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: 0 6px 18px rgba(45, 212, 191, 0.4);
+}
+
+.cta-info {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.provider-link {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+}
+
+.provider-link a {
+    color: var(--blue-brand);
+}
+
+.features-tags {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.tag {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.tag-dark { background-color: #1e293b; color: #ffffff; }
+.tag-blue { background-color: var(--blue-light); color: var(--blue-brand); }
+.tag-green { background-color: var(--menta-light); color: var(--menta-text); }
+
+/* ==========================================================================
+   6. TARJETA DE ACCESO LATERAL
+   ========================================================================== */
+.hero-side-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-card);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(5px);
+}
+
+.hero-side-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--blue-brand);
+}
+
+.hero-side-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.blue-link {
+    color: var(--blue-brand);
+    font-weight: 600;
+}
+
+.card-footer-text {
+    margin-bottom: 0 !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 1.5rem;
+}
+
+/* ==========================================================================
+   7. CUADRÍCULA INFERIOR (TARJETAS DE ATRIBUTOS)
+   ========================================================================== */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 3rem 8%;
+    background-color: #ffffff; /* Genera contraste absoluto con el contenedor del fondo */
+}
+
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.feature-card {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px); /* Animación sutil al pasar el cursor */
+}
+
+.feature-card h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--menta-text); /* El signo "+" se destaca en tono menta oscuro */
+}
+
+.feature-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   8. OPTIMIZACIÓN RESPONSIVA ADICIONAL PARA MÓVILES (PANTALLAS CHICAS)
+   ========================================================================== */
+@media (max-width: 600px) {
+    /* Ajustes en la barra de navegación para que no se sature */
+    .main-navbar {
+        padding: 1rem 5%; /* Menos espacio a los lados en celulares */
+        flex-direction: column; /* Alinea el logo arriba y el botón abajo si es necesario */
+        gap: 0.8rem;
+    }
+
+    /* Ocultamos los enlaces de texto secundarios en celular para evitar desbordes */
+    .nav-links a {
+        display: none; 
+    }
+
+    /* Hacemos que el botón de login ocupe un espacio cómodo */
+    .btn-nav-login {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Ajustes en el texto principal para que no se vea gigante en pantallas chicas */
+    .hero-overlay-wrapper {
+        padding: 2.5rem 5%;
+    }
+
+    .hero-main-content h1 {
+        font-size: 2rem; /* Tamaño de letra más adecuado para teléfonos */
+        margin: 1rem 0;
+    }
+
+    /* Los botones y textos de llamada a la acción se centran o apilan */
+    .cta-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .btn-primary {
+        width: 100%; /* El botón ocupa todo el ancho del celular, siendo más fácil de presionar */
+        text-align: center;
+    }
+
+    .cta-info {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    /* Tarjeta lateral se ajusta al espacio disponible */
+    .hero-side-card {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+
+    /* Tarjetas de calidad inferiores */
+    .features-grid {
+        padding: 2rem 5%;
+        gap: 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   9. ESTILOS ESPECÍFICOS PARA LA PANTALLA DE LOGIN
+   ========================================================================== */
+.login-body {
+    background: linear-gradient(rgba(242, 248, 246, 0.5), rgba(242, 248, 246, 0.7)), 
+                url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.login-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-card);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header .nav-logo {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.login-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.4rem;
+}
+
+.login-header p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Campos de entrada de datos (Inputs) */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.password-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-password {
+    font-size: 0.8rem;
+    color: var(--blue-brand);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.login-form input {
+    background-color: #ffffff;
+    border: 1px solid rgba(100, 116, 139, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    transition: all 0.2s ease;
+}
+
+/* Foco interactivo con el azul de la marca */
+.login-form input:focus {
+    outline: none;
+    border-color: var(--blue-brand);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+/* Modificación del botón para abarcar todo el formulario */
+.btn-login-submit {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.login-footer a {
+    color: var(--blue-brand);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Ajuste responsivo para celulares muy pequeños */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 2rem 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   10. ESTILOS ESPECÍFICOS PARA EL DASHBOARD PRINCIPAL
+   ========================================================================== */
+.dashboard-body {
+    background-color: #f8fafc; /* Fondo gris claro clínico muy limpio */
+    min-height: 100vh;
+    display: block;
+}
+
+.dashboard-wrapper {
+    display: grid;
+    grid-template-columns: 260px 1fr; /* Columna fija para el menú, el resto para contenido */
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* --- BARRA LATERAL (SIDEBAR) --- */
+.dashboard-sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid var(--border-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.sidebar-logo {
+    font-size: 1.3rem;
+    color: var(--blue-brand);
+    margin-bottom: 3rem;
+    padding-left: 0.5rem;
+}
+.sidebar-logo span {
+    color: var(--menta-text);
+    font-weight: 300;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+/* Estado activo e interactivo del menú lateral usando la paleta menta/azul */
+.menu-item:hover {
+    background-color: var(--bg-light);
+    color: var(--blue-brand);
+}
+
+.menu-item.active {
+    background-color: var(--blue-light);
+    color: var(--blue-brand);
+    font-weight: 600;
+}
+
+/* Footer del Sidebar con datos de usuario */
+.sidebar-user-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid var(--border-card);
+    padding-top: 1.5rem;
+}
+
+.user-avatar {
+    background-color: var(--menta-brand);
+    color: #1e293b;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.user-info {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-main);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.btn-logout {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.2rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+.btn-logout:hover {
+    background-color: #fee2e2; /* Destello rojo suave al salir */
+}
+
+/* --- CONTENIDO PRINCIPAL --- */
+.dashboard-main-content {
+    padding: 2.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-card);
+    padding-bottom: 1.5rem;
+}
+
+.content-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.current-date {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.btn-add-appointment {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.95rem;
+}
+
+/* Área interior de las vistas */
+.view-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.welcome-box {
+    background-color: #ffffff;
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.welcome-box h2 {
+    font-size: 1.3rem;
+    color: var(--blue-brand);
+    margin-bottom: 0.5rem;
+}
+
+.welcome-box p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Cuadrícula de tarjetas informativas */
+.dashboard-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.summary-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-card);
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+}
+
+.summary-card h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.summary-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.text-blue h3 { color: var(--blue-brand); }
+.text-green h3 { color: var(--menta-text); }
+.text-dark h3 { color: var(--text-main); }
+
+/* --- ADAPTABILIDAD DEL DASHBOARD --- */
+@media (max-width: 900px) {
+    .dashboard-wrapper {
+        grid-template-columns: 1fr; /* El menú se puede colapsar o reordenar en tablet */
+    }
+    .dashboard-sidebar {
+        height: auto;
+        position: relative;
+        padding: 1.5rem;
+    }
+    .dashboard-main-content {
+        padding: 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   11. DISEÑO DE LA TABLA DE AGENDA DIARIA
+   ========================================================================== */
+.table-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+}
+
+.table-header-row {
+    margin-bottom: 1.5rem;
+}
+
+.table-header-row h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.table-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Envoltura para permitir scroll horizontal si se visualiza en celulares */
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.agenda-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.agenda-table th {
+    background-color: #f8fafc;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 1rem;
+    border-bottom: 2px solid var(--border-card);
+}
+
+.agenda-table td {
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid var(--border-card);
+    color: #334155;
+}
+
+.agenda-table tr:last-child td {
+    border-bottom: none; /* Elimina la línea en la última fila */
+}
+
+/* Resalte sutil al pasar el mouse por las filas */
+.agenda-table tr:hover td {
+    background-color: #fafafa;
+}
+
+.time-cell {
+    font-weight: 700;
+    color: var(--blue-brand) !important;
+}
+
+.agenda-table small {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* --- ETIQUETAS DE ESTADO (BADGES) --- */
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.status-success {
+    background-color: var(--menta-light);
+    color: var(--menta-text);
+}
+
+.status-warning {
+    background-color: #fef3c7; /* Amarillo suave */
+    color: #d97706;            /* Ámbar oscuro legible */
+}
+
+.status-info {
+    background-color: var(--blue-light);
+    color: var(--blue-brand);
+}
+
+/* --- BOTONES DE ACCIONES DENTRO DE LA TABLA --- */
+.btn-table-action {
+    background-color: transparent;
+    border: 1px solid rgba(100, 116, 139, 0.2);
+    color: var(--text-muted);
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-table-action:hover {
+    background-color: #f1f5f9;
+    color: var(--text-main);
+}
+
+/* Botón llamativo "Llamar" en verde menta para el paciente en espera */
+.btn-action-highlight {
+    background-color: var(--menta-brand);
+    border-color: var(--menta-brand);
+    color: #1e293b;
+}
+
+.btn-action-highlight:hover {
+    background-color: #14b8a6; /* Tono menta ligeramente más fuerte */
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   12. RESPONSIVO AVANZADO: MENÚ DESLIZABLE DESDE LA IZQUIERDA Y TABLA TÁCTIL
+   ========================================================================== */
+
+/* Botones de control ocultos por defecto en computadoras */
+.btn-toggle-hamburger, .btn-close-sidebar, .sidebar-overlay {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    /* Reajuste de la rejilla principal para colapsar */
+    .dashboard-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    /* --- SIDEBAR OCULTO A LA IZQUIERDA POR DEFECTO --- */
+.dashboard-sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px; /* Escondido fuera de la pantalla */
+    width: 260px;
+    height: 100vh;
+    z-index: 200;
+    
+    /* MEJORA VISUAL: Sombreado más profundo y premium */
+    box-shadow: 10px 0 30px rgba(15, 23, 42, 0.15); 
+    
+    /* MEJORA VISUAL: Transición ultra fluida con cubic-bezier (efecto app nativa) */
+    transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+}
+
+/* Clase de activación cuando se abre el menú */
+.dashboard-sidebar.open {
+    left: 0; 
+}
+
+/* Fondo oscuro traslúcido mejorado */
+.sidebar-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.3); /* Un tono gris oscuro más estético */
+    
+    /* MEJORA VISUAL: Filtro de desenfoque para el contenido de atrás */
+    backdrop-filter: blur(4px); 
+    
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+/* Capa oscura activa */
+.sidebar-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+    /* Clase de activación que inyecta JavaScript al dar clic en la hamburguesa */
+    .dashboard-sidebar.open {
+        left: 0; /* Aparece en pantalla completa desde la izquierda */
+    }
+
+    .sidebar-top-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .sidebar-logo {
+        margin-bottom: 0; /* Alineación limpia */
+    }
+
+    /* Botón X para cerrar el menú */
+    .btn-close-sidebar {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+    /* Fondo oscuro traslúcido para dar enfoque al menú en móviles */
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(30, 41, 59, 0.4);
+        backdrop-filter: blur(2px);
+        z-index: 150;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* --- BARRA SUPERIOR FIJA EN MÓVIL --- */
+    .content-header {
+        flex-direction: row; /* Mantiene los elementos principales arriba */
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 1rem;
+        gap: 1rem;
+    }
+
+    .header-left-block {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    /* Botón de tres líneas (Hamburguesa) visible */
+    .btn-toggle-hamburger {
+        display: block;
+        background-color: var(--blue-light);
+        color: var(--blue-brand);
+        border: none;
+        font-size: 1.4rem;
+        padding: 0.5rem 0.8rem;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .dashboard-main-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .content-header h1 {
+        font-size: 1.4rem; /* Texto más balanceado para teléfonos */
+    }
+
+    /* --- OPTIMIZACIÓN DE DESLIZAMIENTO DE LA AGENDA --- */
+    .table-card {
+        padding: 1.25rem 1rem;
+    }
+
+    .table-responsive-wrapper {
+        overflow-x: auto; /* Permite arrastrar la tabla a los lados */
+        margin-top: 1rem;
+        -webkit-overflow-scrolling: touch; /* Scroll ultra-suave en iOS/Android */
+    }
+
+    .agenda-table th, .agenda-table td {
+        padding: 0.8rem 0.75rem; /* Compacta las celdas para mayor visibilidad al arrastrar */
+        white-space: nowrap; /* Evita que el texto de las columnas se rompa en dos renglones */
+    }
+}
+/* ==========================================================================
+   CONGELADO DE BARRA SUPERIOR Y CONTROL DE DESLIZAMIENTO DE AGENDA
+   ========================================================================== */
+
+.dashboard-main-content {
+    padding: 0; /* Quitamos el padding general para controlar el Header de borde a borde */
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Controla la altura completa de la pantalla */
+    overflow: hidden; /* Evita que toda la página rebote en móviles */
+}
+
+/* El Header se vuelve completamente estático/fijo arriba */
+.content-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-card);
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Asegura que siempre quede por encima de la tabla al hacer scroll */
+}
+
+/* El área inferior al Header contiene el scroll vertical principal */
+.view-container {
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    overflow-y: auto; /* Permite scroll vertical interno si hay muchas citas */
+    flex-grow: 1;
+}
+
+/* Contenedor de la tabla con aislamiento de deslizamiento lateral */
+.table-responsive-wrapper {
+    width: 100%;
+    max-width: 100%; /* Restringe el ancho estricto al tamaño de la pantalla */
+    overflow-x: auto; /* Activa el deslizamiento a los lados EXCLUSIVAMENTE aquí */
+    display: block;
+    -webkit-overflow-scrolling: touch; /* Suavizado táctil para dispositivos móviles */
+}
+
+/* ==========================================================================
+   AJUSTES RESPONSIVOS ADICIONALES PARA PANTALLAS MÓVILES
+   ========================================================================== */
+@media (max-width: 900px) {
+    .content-header {
+        padding: 1rem 1.5rem; /* Ajuste de espacio más compacto en celular */
+    }
+
+    .view-container {
+        padding: 1.5rem 1rem; /* Compacta el contenedor de la tabla en celular */
+    }
+    
+    .agenda-table th, .agenda-table td {
+        white-space: nowrap; /* Fuerza a que las columnas se expandan hacia la derecha de forma deslizable */
+    }
+}
+
+/* ==========================================================================
+   13. MEJORA 2: BARRA DE FILTROS RÁPIDOS PARA LA AGENDA
+   ========================================================================== */
+.table-filters-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap; /* Permite que los botones se acomoden abajo si la pantalla es muy chica */
+}
+
+.filter-btn {
+    background-color: #f8fafc;
+    border: 1px solid rgba(100, 116, 139, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 30px; /* Forma de cápsula/píldora */
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Efecto hover general */
+.filter-btn:hover {
+    background-color: #f1f5f9;
+    color: var(--text-main);
+    transform: translateY(-1px); /* Pequeño levante visual */
+}
+
+/* Estado Activo (El botón seleccionado por defecto) */
+.filter-btn.active {
+    background-color: var(--blue-brand) !important;
+    border-color: var(--blue-brand) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+}
+
+/* Variaciones de color sutiles al pasar el mouse por encima según el estado */
+.filter-btn.text-warning:hover {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.filter-btn.text-success:hover {
+    background-color: var(--menta-light);
+    color: var(--menta-text);
+}
+
+.filter-btn.text-info:hover {
+    background-color: var(--blue-light);
+    color: var(--blue-brand);
+}
+
+/* Ajuste responsivo para celulares */
+@media (max-width: 480px) {
+    .table-filters-bar {
+        gap: 0.5rem;
+    }
+    .filter-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        flex-grow: 1; /* Hace que las píldoras se distribuyan uniformemente en pantalla móvil */
+        text-align: center;
+    }
+}
+
+/* ==========================================================================
+   14. MEJORA 3: ICONOS DE ESTADO DINÁMICOS CON EFECTO PING (PARPADEO)
+   ========================================================================== */
+
+/* Contenedor del badge que alinea el punto con el texto */
+.badge-ping-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+/* El punto base que se queda fijo */
+.ping-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #d97706; /* Color ámbar a juego con el texto */
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+}
+
+/* El clon de fondo que va a hacer el efecto de onda expansiva (Ping) */
+.ping-dot::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #d97706;
+    border-radius: 50%;
+    
+    /* Vinculamos la animación infinita */
+    animation: pulse-ping 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* DECLARACIÓN DE LA ANIMACIÓN DE ONDA */
+@keyframes pulse-ping {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    } 
+    100% {
+        transform: scale(2.8); /* Se expande casi al triple de su tamaño */
+        opacity: 0;            /* Se desvanece por completo al salir */
+    }
+}
+
+/* ==========================================================================
+   15. MEJORA 4: SKELETON LOADING (ANIMACIÓN DE CARGA PREMIUM)
+   ========================================================================== */
+
+/* Contenedor de la línea gris base */
+.skeleton-line {
+    background: #e2e8f0; /* Gris claro clínico */
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite linear; /* Movimiento de brillo infinito */
+    border-radius: 6px;
+}
+
+/* Dimensiones personalizadas para simular la estructura real de la tabla */
+.skeleton-time { width: 60px; height: 16px; }
+.skeleton-name { width: 140px; height: 16px; margin-bottom: 6px; }
+.skeleton-sub { width: 70px; height: 12px; }
+.skeleton-text { width: 180px; height: 16px; }
+.skeleton-badge { width: 80px; height: 24px; border-radius: 20px; }
+.skeleton-btn { width: 75px; height: 28px; }
+
+/* ANIMACIÓN DEL BARRIDO DE LUZ (SHIMMER) */
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Opcional: Una forma rápida de ocultar/mostrar filas reales o cargas */
+.skeleton-row td {
+    pointer-events: none; /* Desactiva clics mientras simula carga */
+}
+
+/* ==========================================================================
+   16. MEJORA 5: MODO OSCURO CLÍNICO (VARIABLES REESCRITAS)
+   ========================================================================== */
+
+/* Estilos para el botón del Header */
+.btn-toggle-dark {
+    background-color: #f1f5f9;
+    border: 1px solid rgba(100, 116, 139, 0.15);
+    font-size: 1.2rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-toggle-dark:hover {
+    background-color: #e2e8f0;
+    transform: scale(1.05);
+}
+
+/* CUANDO LA CLASE .dark-mode ESTÁ ACTIVA, REESCRIBIMOS LAS VARIABLES */
+body.dark-mode {
+    background-color: #0f172a !important; /* Fondo de pantalla azul oscuro profundo */
+    --text-main: #f8fafc;                  /* Textos principales blancos */
+    --text-muted: #94a3b8;                 /* Textos secundarios gris claro */
+    --border-card: #334155;                /* Bordes de tablas y tarjetas más oscuros */
+    --bg-light: #1e293b;                   /* Fondos de elementos secundarios */
+}
+
+/* Ajustes específicos de componentes en Modo Oscuro */
+body.dark-mode .dashboard-body {
+    background-color: #0f172a;
+}
+
+body.dark-mode .dashboard-sidebar,
+body.dark-mode .content-header,
+body.dark-mode .table-card,
+body.dark-mode .welcome-box,
+body.dark-mode .summary-card,
+body.dark-mode .agenda-table th {
+    background-color: #1e293b; /* Las tarjetas se vuelven gris pizarra */
+    color: #f8fafc;
+}
+
+body.dark-mode .agenda-table td {
+    color: #cbd5e1;
+}
+
+body.dark-mode .agenda-table tr:hover td {
+    background-color: #1e293b; /* Evita destellos blancos al pasar el mouse */
+}
+
+body.dark-mode .btn-toggle-dark {
+    background-color: #334155;
+    border-color: #475569;
+}
+
+/* ==========================================================================
+   18. MEJORA DE MÓDULOS DEL DASHBOARD (SPA)
+   ========================================================================== */
+.module-wrapper {
+    padding: 0.5rem;
+    animation: fadeInModule 0.3s ease-out;
+}
+
+@keyframes fadeInModule {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Acciones superiores */
+.module-actions-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.input-search-clinical {
+    flex-grow: 1;
+    max-width: 400px;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-card);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+.btn-primary-small {
+    background-color: var(--blue-brand);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Tablas Modulares Integradas */
+.modular-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+.modular-table th, .modular-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-card);
+    font-size: 0.9rem;
+}
+.modular-table th {
+    background-color: #f8fafc;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+body.dark-mode .modular-table th { background-color: #1e293b; }
+
+.btn-action-view {
+    background: transparent;
+    border: 1px solid var(--blue-brand);
+    color: var(--blue-brand);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-action-view:hover { background-color: var(--blue-light); }
+
+/* Notas Clínicas */
+.note-editor-card h3 { margin-bottom: 1.5rem; color: var(--text-main); }
+.form-group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.form-element-block { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-element-block label { font-weight: 600; font-size: 0.85rem; color: var(--text-muted); }
+.form-element-block textarea {
+    height: 120px; padding: 0.75rem; border: 1px solid var(--border-card);
+    border-radius: 8px; resize: none; font-family: inherit; font-size: 0.9rem;
+    background: transparent; color: var(--text-main);
+}
+.btn-save-note {
+    background-color: #14b8a6; color: white; border: none; padding: 0.75rem 1.5rem;
+    border-radius: 8px; font-weight: 700; cursor: pointer;
+}
+
+/* Control de Caja */
+.caja-summary-row {
+    display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;
+}
+.caja-metric-mini {
+    background: #f8fafc; border: 1px solid var(--border-card); padding: 1rem 1.5rem;
+    border-radius: 12px; display: flex; flex-direction: column; gap: 0.25rem; flex-grow: 1;
+}
+body.dark-mode .caja-metric-mini { background: #1e293b; }
+.caja-metric-mini span { font-size: 0.8rem; color: var(--text-muted); }
+.caja-metric-mini strong { font-size: 1.25rem; color: var(--text-main); }
+.caja-metric-mini.total strong { color: #14b8a6; }
+
+.pay-method { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+.pay-method.cash { background-color: #fef3c7; color: #d97706; }
+
+/* Configuración */
+.config-grid-settings { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.config-card-item {
+    border: 1px solid var(--border-card); padding: 1.5rem; border-radius: 12px;
+    display: flex; flex-direction: column; gap: 0.5rem;
+}
+.config-card-item h4 { color: var(--text-main); }
+.config-card-item p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem; }
+.btn-config-action {
+    align-self: flex-start; background: #f1f5f9; border: 1px solid var(--border-card);
+    padding: 0.4rem 1rem; border-radius: 6px; font-weight: 600; cursor: pointer; color: var(--text-main);
+}
+body.dark-mode .btn-config-action { background: #334155; }
+
+/* ==========================================================================
+   19. ESTILOS DE BOTONES Y MENÚ ACTIVO PARA EL ADMINISTRADOR
+   ========================================================================== */
+
+/* Botón principal "+ Agregar Personal" (Azul Institucional) */
+#btnAgregarPersonal.btn-primary-small {
+    background-color: var(--blue-brand) !important;
+    color: #ffffff !important;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15);
+    transition: all 0.25s ease;
+}
+
+/* Cambio a azul brillante al pasar el cursor o seleccionarlo */
+#btnAgregarPersonal.btn-primary-small:hover,
+#btnAgregarPersonal.btn-primary-small:focus {
+    background-color: #0284c7 !important; /* Azul brillante */
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    transform: translateY(-1px);
+}
+
+/* Efecto al dar clic físico */
+#btnAgregarPersonal.btn-primary-small:active {
+    transform: translateY(1px);
+}
+
+/* Ajuste premium para los botones "Dar de Baja" dentro de las tablas */
+.modular-table .btn-action-view {
+    border: 1px solid rgba(239, 68, 68, 0.2) !important;
+    background-color: rgba(239, 68, 68, 0.02);
+    color: #ef4444 !important; /* Rojo sutil clínico */
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modular-table .btn-action-view:hover {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+/* --- ESTADO SELECCIONADO (ACTIVO) EN EL MENÚ LATERAL DEL ADMINISTRADOR --- */
+.dashboard-sidebar nav a {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.2rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+/* Cuando la pestaña está seleccionada (.active) se vuelve azul brillante */
+.dashboard-sidebar nav a.active {
+    background-color: rgba(2, 132, 199, 0.08) !important; /* Fondo azul traslúcido muy sutil */
+    color: #0284c7 !important;                             /* Texto azul brillante */
+    border-left: 4px solid #0284c7;                         /* Barra lateral indicadora */
+    padding-left: calc(1.2rem - 4px);                       /* Compensa el grosor del borde */
+}
+
+/* Hover para las pestañas no seleccionadas */
+.dashboard-sidebar nav a:hover:not(.active) {
+    background-color: #f1f5f9;
+    color: var(--text-main);
+}
+
+/* Ajuste del menú activo en Modo Oscuro */
+body.dark-mode .dashboard-sidebar nav a.active {
+    background-color: rgba(2, 132, 199, 0.15) !important;
+    color: #38bdf8 !important; /* Azul brillante más claro para contraste en fondo oscuro */
+    border-left-color: #38bdf8;
+}
+
+
+/* Banner dinámico de notificación de Rol */
+.role-notification-banner {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(30, 64, 175, 0.05);
+    animation: fadeInModule 0.4s ease-out;
+}
+
+body.dark-mode .role-notification-banner {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-color: #334155;
+    color: #38bdf8;
+}
+
+
+/* ==========================================================================
+   20. SECCIÓN CORPORATIVA E HISTORIA (INDEX)
+   ========================================================================== */
+.index-corporate-container {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.corporate-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    background: #ffffff;
+    border: 1px solid rgba(100, 116, 139, 0.12);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.corporate-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(2, 132, 199, 0.04);
+}
+
+.corporate-content {
+    flex: 1;
+}
+
+.corporate-content h2 {
+    font-size: 2.2rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    position: relative;
+}
+
+.corporate-content h3 {
+    font-size: 1.1rem;
+    color: #0284c7; /* Tu azul brillante institucional */
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.corporate-content p {
+    color: #64748b;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+}
+
+.corporate-content p:last-child {
+    margin-bottom: 0;
+}
+
+.corporate-icon-graphic {
+    font-size: 5rem;
+    background: #f0f9ff;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: inset 0 0 20px rgba(2, 132, 199, 0.05);
+    user-select: none;
+}
+
+/* Distribución invertida para alternar el diseño visual */
+.corporate-card.reverse-layout {
+    flex-direction: row-reverse;
+}
+
+.corporate-card.reverse-layout .corporate-icon-graphic {
+    background: #f0fdf4; /* Verde suave sutil */
+}
+
+/* Soporte adaptativo para celulares y tablets */
+@media (max-width: 768px) {
+    .index-corporate-container {
+        margin: 2rem auto;
+        gap: 2rem;
+    }
+    .corporate-card, .corporate-card.reverse-layout {
+        flex-direction: column;
+        padding: 2rem;
+        text-align: center;
+    }
+    .corporate-icon-graphic {
+        width: 100px;
+        height: 100px;
+        font-size: 3.5rem;
+    }
+}
+
+/* Integración nativa con tu Modo Oscuro */
+body.dark-mode .corporate-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+body.dark-mode .corporate-content h2 { color: #f8fafc; }
+body.dark-mode .corporate-content p { color: #94a3b8; }
+body.dark-mode .corporate-icon-graphic { background: #0f172a; }
+
+/* ==========================================================================
+   21. BOTÓN DE REGISTRO Y VENTANA MODAL (INDEX)
+   ========================================================================== */
+
+/* Botón de la Landing Page */
+.btn-index-register {
+    background-color: #0284c7;
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.25);
+    transition: all 0.25s ease;
+}
+
+.btn-index-register:hover {
+    background-color: #0369a1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+}
+
+/* Fondo oscurecido de la modal */
+.register-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.6); /* Fondo semi-transparente oscuro */
+    backdrop-filter: blur(4px); /* Efecto difuminado moderno */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+/* Clase para activar la modal desde JS */
+.register-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Tarjeta de Formulario */
+.register-modal-card {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Botón de cerrar (X) */
+.btn-close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.btn-close-modal:hover { color: #475569; }
+
+.modal-header h2 span { color: #0284c7; }
+.modal-header p { color: #64748b; font-size: 0.9rem; margin-top: 0.25rem; margin-bottom: 1.5rem; }
+
+/* Elementos del Formulario */
+.form-element-index {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.form-element-index label { font-weight: 600; font-size: 0.85rem; color: #334155; }
+.form-element-index input {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.2);
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.btn-submit-register {
+    width: 100%;
+    background-color: #14b8a6; /* Verde turquesa clínico de MediCore */
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+}
+
+.btn-submit-register:hover { background-color: #0d9488; }
+
+/* ==========================================================================
+   22. VISTA DE REGISTRO PREMIUM CON FONDO IMAGEN Y HOVERS ILUMINADOS
+   ========================================================================== */
+
+/* Fondo del body con imagen médica tenue */
+.register-body {
+    background-image: linear-gradient(rgba(248, 250, 252, 0.88), rgba(248, 250, 252, 0.88)), 
+                      url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+/* Modo Oscuro adaptativo para la imagen de fondo */
+body.dark-mode .register-body {
+    background-image: linear-gradient(rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.92)), 
+                      url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80');
+}
+
+/* Tarjeta contenedora del registro */
+.register-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 650px;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+    border: 1px solid rgba(100, 116, 139, 0.12);
+    box-sizing: border-box;
+    animation: fadeInModule 0.4s ease-out;
+}
+
+body.dark-mode .register-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Encabezado y textos centrados */
+.register-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.register-header h1 {
+    color: #1e293b;
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 800;
+}
+
+body.dark-mode .register-header h1 { color: #f8fafc; }
+
+.register-header p {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+.brand-blue {
+    color: #0284c7;
+}
+
+/* Títulos de las secciones alineados e institucionales */
+.section-title {
+    color: #0284c7;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+body.dark-mode .section-title {
+    border-bottom-color: #334155;
+    color: #38bdf8;
+}
+
+/* Rejilla de Inputs */
+.register-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+@media (max-width: 550px) {
+    .register-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group-block label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #334155;
+}
+
+body.dark-mode .form-group-block label { color: #cbd5e1; }
+
+.form-group-block input,
+.form-group-block select {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.2);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #ffffff;
+    color: #334155;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+body.dark-mode .form-group-block input,
+body.dark-mode .form-group-block select {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+.form-group-block input:focus,
+.form-group-block select:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+
+.single-row-input {
+    margin-bottom: 1.25rem;
+}
+
+/* Botón de envío con Iluminación Brillante (Hover) */
+.btn-register-submit {
+    width: 100%;
+    background-color: #14b8a6; /* Tu verde turquesa médico */
+    color: white;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.2);
+    transition: all 0.25s ease;
+}
+
+/* El botón se ilumina a un turquesa vibrante y se eleva sutilmente */
+.btn-register-submit:hover,
+.btn-register-submit:focus {
+    background-color: #0ed5c0; /* Turquesa brillante e iluminado */
+    box-shadow: 0 6px 20px rgba(20, 184, 166, 0.45);
+    transform: translateY(-1px);
+}
+
+.btn-register-submit:active {
+    transform: translateY(1px);
+}
+
+/* Footer del Formulario */
+.register-footer-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.register-footer-links a {
+    color: #64748b;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-span {
+    color: #0284c7;
+    transition: color 0.2s;
+}
+
+.login-span:hover {
+    color: #0369a1;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   23. CORRECCIÓN: FONDOS DINÁMICOS OPTIMIZADOS Y BARRA LATERAL AZUL
+   ========================================================================== */
+
+/* --- MODO CLARO: Filtro muy sutil y blanco para que la imagen se vea clara y nítida --- */
+body.bg-medico {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), 
+                      url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80') !important;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body.bg-finanzas {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), 
+                      url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1920&q=80') !important;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body.bg-admin {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), 
+                      url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80') !important;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* --- MODO OSCURO: Filtro azul oscuro traslúcido para que la imagen cambie de color --- */
+body.dark-mode.bg-medico {
+    background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)), 
+                      url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80') !important;
+}
+
+body.dark-mode.bg-finanzas {
+    background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)), 
+                      url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1920&q=80') !important;
+}
+
+body.dark-mode.bg-admin {
+    background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)), 
+                      url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80') !important;
+}
+
+/* --- DISEÑO DE LA BARRA LATERAL AZUL PREMIUM --- */
+.dashboard-sidebar {
+    background-color: #0f172a; /* Azul marino profundo muy elegante */
+    color: #f8fafc;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Estilos para los enlaces del menú dentro de la barra azul */
+.dashboard-sidebar nav a {
+    color: #94a3b8;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 0.3rem;
+}
+
+/* Elemento activo en el menú (Azul MediCore brillante) */
+.dashboard-sidebar nav a.active {
+    background-color: #0284c7;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Hover sobre las opciones del menú */
+.dashboard-sidebar nav a:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #f8fafc;
+}
+
+/* Ajuste sutil para los textos informativos superiores */
+.role-notification-banner {
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #0284c7;
+    background-color: rgba(2, 132, 199, 0.08);
+    color: #0369a1;
+    backdrop-filter: blur(4px); /* Suaviza el fondo sobre la imagen */
+}
+
+body.dark-mode .role-notification-banner {
+    background-color: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border-left-color: #38bdf8;
+}
+
+/* ==========================================================================
+   24. VENTANA MODAL DE CITAS PROFESIONAL (DASHBOARD)
+   ========================================================================== */
+.dashboard-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10000;
+    transition: opacity 0.3s ease;
+}
+
+.dashboard-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dashboard-modal-card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(100, 116, 139, 0.12);
+    animation: fadeInModule 0.35s ease-out;
+}
+
+body.dark-mode .dashboard-modal-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.modal-card-header h3 {
+    font-size: 1.3rem;
+    color: #1e293b;
+    margin: 0 0 0.25rem 0;
+    font-weight: 700;
+}
+
+body.dark-mode .modal-card-header h3 { color: #f8fafc; }
+
+.modal-card-header p {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0 0 1.5rem 0;
+}
+
+.modal-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.modal-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.modal-form-group label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+body.dark-mode .modal-form-group label { color: #cbd5e1; }
+
+.modal-form-group input {
+    padding: 0.65rem 0.85rem;
+    border: 1px solid rgba(100, 116, 139, 0.2);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #ffffff;
+    color: #1e293b;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+body.dark-mode .modal-form-group input {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+.modal-form-group input:focus {
+    border-color: #0284c7;
+}
+
+/* Botones inferiores de la modal */
+.modal-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 1.25rem;
+}
+
+body.dark-mode .modal-card-footer { border-top-color: #334155; }
+
+.btn-modal-cancel {
+    background: transparent;
+    border: 1px solid rgba(100, 116, 139, 0.3);
+    color: #64748b;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-modal-cancel:hover { background: #f1f5f9; }
+body.dark-mode .btn-modal-cancel:hover { background: #334155; color: #f8fafc; }
+
+.btn-modal-submit {
+    background-color: #0284c7;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+    transition: background-color 0.2s;
+}
+
+.btn-modal-submit:hover {
+    background-color: #0369a1;
+}
+
+
+/* Botón de filtrado activo de reportes analíticos */
+.btn-filter-reporte.active {
+    background-color: #14b8a6 !important;
+    color: white !important;
+    border-color: #14b8a6 !important;
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.2);
+}
+
+
+/* ==========================================================================
+   ESTILOS MODERNOS PARA EL MENÚ DE NAVEGACIÓN (NAVBAR)
+   ========================================================================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+nav {
+    display: flex;
+    gap: 0.75rem; /* Separación simétrica entre los botones */
+    align-items: center;
+}
+
+/* Estilo base para TODOS los botones del menú (Inicio, Características, Soporte) */
+nav a {
+    text-decoration: none !important; /* Elimina la línea subrayada estándar */
+    color: #0284c7 !important; /* Tono celeste principal corporativo */
+    background-color: #f0f9ff; /* Fondo celeste muy tenue y limpio */
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px; /* Bordes redondeados sutiles acordes a la app */
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease; /* Transición suave para el efecto de brillo */
+    border: 1px solid rgba(2, 132, 199, 0.15);
+    display: inline-block;
+}
+
+/* EFECTO HOVER: Brillo celeste vibrante cuando el cursor pasa por encima */
+nav a:hover {
+    color: #ffffff !important;
+    background-color: #0284c7; /* Se vuelve celeste sólido */
+    border-color: #0284c7;
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.6), 0 4px 6px rgba(2, 132, 199, 0.2); /* Efecto de brillo neón */
+    transform: translateY(-1px); /* Pequeño salto interactivo profesional */
+}
+
+/* Estilo destacado exclusivo para el botón de "Iniciar Sesión" */
+nav a.btn-login {
+    color: #ffffff !important;
+    background-color: #0081c9; /* Un tono celeste un poco más intenso */
+    border-color: #0081c9;
+}
+
+nav a.btn-login:hover {
+    background-color: #026ba3;
+    border-color: #026ba3;
+    box-shadow: 0 0 15px rgba(0, 129, 201, 0.7); /* Brillo más fuerte para destacar la acción */
+}

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCore Systems - Panel Principal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        
+        <aside class="dashboard-sidebar" id="sidebarMenu">
+            <div class="sidebar-top-wrapper">
+                <div class="sidebar-logo">
+                    <strong>MediCore</strong><span>Systems</span>
+                </div>
+                <button class="btn-close-sidebar" onclick="toggleMenu()">✕</button>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active">Agenda Médica</a>
+                <a href="#" class="menu-item">Expedientes Clínicos</a>
+                <a href="#" class="menu-item">Notas de Evolución</a>
+                <a href="#" class="menu-item">Control de Caja</a>
+                <a href="#" class="menu-item">Configuración</a>
+            </nav>
+
+            <div class="sidebar-user-footer">
+                <div class="user-avatar" id="userAvatarText">UX</div>
+                <div class="user-info">
+                    <p class="user-name" id="userProfileName">Usuario Clínico</p>
+                    <p class="user-role" id="userProfileRole">Cargando perfil...</p>
+                </div>
+                <button class="btn-logout" onclick="location.href='login.html'" title="Cerrar Sesión">🚪</button>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
+
+        <main class="dashboard-main-content">
+            
+            <header class="content-header">
+                <div class="header-left-block">
+                    <button class="btn-toggle-hamburger" onclick="toggleMenu()">☰</button>
+                    
+                    <div class="header-title-zone">
+                        <h1>Agenda Médica</h1>
+                        <p class="current-date">Panel de control · Gestión diaria</p>
+                    </div>
+                </div>
+                
+                <div class="header-action-zone">
+                    <button class="btn-toggle-dark" onclick="toggleDarkMode()">🌙</button>
+                </div>
+            </header>
+
+            <section class="view-container"> 
+                
+                <div class="dashboard-summary-cards">
+                    <div class="summary-card text-blue">
+                        <h3>4</h3>
+                        <p>Citas programadas</p>
+                    </div>
+                    <div class="summary-card text-green">
+                        <h3>1</h3>
+                        <p>En sala de espera</p>
+                    </div>
+                    <div class="summary-card text-dark">
+                        <h3>3</h3>
+                        <p>Consultas atendidas</p>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header-row">
+                        <div class="table-filters-bar">
+                            <button class="filter-btn active" data-filter="all">Todos (4)</button>
+                            <button class="filter-btn text-warning" data-filter="espera">En Espera (1)</button>
+                            <button class="filter-btn text-success" data-filter="atendido">Atendidos (2)</button>
+                            <button class="filter-btn text-info" data-filter="agendado">Agendados (1)</button>
+                        </div>
+                        <h2>Lista de Pacientes del Día</h2>
+                        <span class="table-subtitle">Monitoreo en tiempo real (Desliza a los lados para ver más)</span>
+                    </div>
+                    
+                    <div class="table-responsive-wrapper">
+                        <table class="agenda-table modular-table">
+                            <thead>
+                                <tr>
+                                    <th>Horario</th>
+                                    <th>Paciente / Expediente</th>
+                                    <th>Motivo de Consulta</th>
+                                    <th>Asistente Reg.</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="time-cell">09:00 hrs</td>
+                                    <td><strong>Carlos Mendoza Ruiz</strong><br><small>Exp: #1042</small></td>
+                                    <td>Consulta de seguimiento general</td>
+                                    <td>Recepción Gral.</td>
+                                    <td><span class="status-badge style-success" style="background:#dcfce7; color:#15803d; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:600;">Atendido</span></td>
+                                    <td><button class="btn-table-action">Ver Nota</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="time-cell">10:15 hrs</td>
+                                    <td><strong>Ana María Beltrán</strong><br><small>Exp: #0985</small></td>
+                                    <td>Revisión de estudios de laboratorio</td>
+                                    <td>Recepción Gral.</td>
+                                    <td><span class="status-badge style-success" style="background:#dcfce7; color:#15803d; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:600;">Atendido</span></td>
+                                    <td><button class="btn-table-action">Ver Nota</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="time-cell">11:30 hrs</td>
+                                    <td><strong>Jorge Luis Farías</strong><br><small>Exp: #1105</small></td>
+                                    <td>Valoración por dolor lumbar agudo</td>
+                                    <td>Recepción Gral.</td>
+                                    <td>
+                                        <span class="status-badge style-warning" style="background:#fef3c7; color:#b45309; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:600;">
+                                            En Espera
+                                        </span>
+                                    </td>
+                                    <td><button class="btn-table-action">Llamar</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="time-cell">12:45 PM</td>
+                                    <td><strong>Sofía Garza Villarreal</strong><br><small>Exp: #1112</small></td>
+                                    <td>Primera consulta pediátrica</td>
+                                    <td>Recepción Gral.</td>
+                                    <td><span class="status-badge style-info" style="background:#e0f2fe; color:#0369a1; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:600;">Agendado</span></td>
+                                    <td><button class="btn-table-action">Modificar</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+   <!-- VENTANA MODAL INTEGRADA Y CONTROLADA POR CONFIGURACIÓN -->
+<div id="modalCitaElegante" class="dashboard-modal-overlay">
+    <div class="dashboard-modal-card">
+        <div class="modal-card-header">
+            <h3>Registrar Nueva Cita Médica</h3>
+            <p>Introduce la información requerida para el control de la agenda clínica.</p>
+        </div>
+        <form id="formNuevaCitaModal">
+            <div class="modal-form-row">
+                <!-- CAMBIO: Ahora es un select dinámico controlado en lapsos de 30 min -->
+                <div class="modal-form-group">
+                    <label for="citaHora">Horario de Atención (24h)</label>
+                    <select id="citaHora" required>
+                        <!-- Las opciones se generan dinámicamente con JS -->
+                    </select>
+                </div>
+                <!-- NUEVO: Campo para escoger el día de la visita -->
+                <div class="modal-form-group">
+                    <label for="citaFecha">Día de la Visita</label>
+                    <input type="date" id="citaFecha" required>
+                </div>
+            </div>
+            <div class="modal-form-row">
+                <div class="modal-form-group">
+                    <label for="citaMotivo">Motivo de Consulta</label>
+                    <input type="text" id="citaMotivo" placeholder="Ej. Valoración inicial" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="citaNombre">Nombre(s)</label>
+                    <input type="text" id="citaNombre" placeholder="Ej. Carlos" required>
+                </div>
+            </div>
+            <div class="modal-form-row">
+                <div class="modal-form-group" style="grid-column: span 2;">
+                    <label for="citaApellido">Apellido(s)</label>
+                    <input type="text" id="citaApellido" placeholder="Ej. Mendoza Ruiz" required>
+                </div>
+            </div>
+            <div class="modal-card-footer">
+                <button type="button" id="btnCancelarCitaModal" class="btn-modal-cancel">Cancelar</button>
+                <button type="submit" class="btn-modal-submit">Terminar Registro</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- VENTANA MODAL PARA CREAR EXPEDIENTE CLÍNICO -->
+<div id="modalNuevoExpediente" class="dashboard-modal-overlay">
+    <div class="dashboard-modal-card" style="max-width: 650px;">
+        <div class="modal-card-header">
+            <h3>Crear Expediente Clínico Completo</h3>
+            <p>Rellene los campos para registrar el ingreso formal del paciente.</p>
+        </div>
+        <form id="formNuevoExpedienteModal">
+            <div class="modal-form-row">
+                <div class="modal-form-group">
+                    <label for="expNombre">Nombre(s)</label>
+                    <input type="text" id="expNombre" placeholder="Ej. Carlos" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="expApellido">Apellido(s)</label>
+                    <input type="text" id="expApellido" placeholder="Ej. Mendoza Ruiz" required>
+                </div>
+            </div>
+            <div class="modal-form-row">
+                <div class="modal-form-group">
+                    <label for="expEdad">Edad</label>
+                    <input type="number" id="expEdad" min="0" max="120" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="expNacimiento">Fecha de Nacimiento</label>
+                    <input type="date" id="expNacimiento" required>
+                </div>
+            </div>
+            <div class="modal-form-row">
+                <div class="modal-form-group">
+                    <label for="expIngreso">Fecha de Ingreso</label>
+                    <input type="date" id="expIngreso" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="expEgreso">Fecha de Egreso (Estimada/Real)</label>
+                    <input type="date" id="expEgreso">
+                </div>
+            </div>
+            <div class="modal-form-row">
+                <div class="modal-form-group">
+                    <label for="expDiagIngreso">Diagnóstico de Ingreso</label>
+                    <input type="text" id="expDiagIngreso" placeholder="Ej. Crisis hipertensiva" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="expDiagEgreso">Diagnóstico de Egreso</label>
+                    <input type="text" id="expDiagEgreso" placeholder="Ej. Hipertensión controlada">
+                </div>
+            </div>
+            <div class="modal-form-group" style="margin-bottom: 1rem;">
+                <label style="font-weight: 600;">Condiciones de Salud / Antecedentes</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-top: 0.3rem;">
+                    <label style="font-weight: 400;"><input type="checkbox" class="expAlergiaCheck" value="Diabetes"> Diabetes</label>
+                    <label style="font-weight: 400;"><input type="checkbox" class="expAlergiaCheck" value="Hipertensión"> Hipertensión</label>
+                    <label style="font-weight: 400;"><input type="checkbox" class="expAlergiaCheck" value="Asma"> Asma</label>
+                    <label style="font-weight: 400;"><input type="checkbox" class="expAlergiaCheck" value="Alergia a Penicilina"> Alergia a Penicilina</label>
+                </div>
+            </div>
+            <div class="modal-form-group">
+                <label for="expOtros">Otros Padecimientos o Alergias Específicas</label>
+                <input type="text" id="expOtros" placeholder="Ej. Alergia al polen, Hipotiroidismo">
+            </div>
+            <div class="modal-card-footer">
+                <button type="button" id="btnCancelarExpModal" class="btn-modal-cancel">Cancelar</button>
+                <button type="submit" class="btn-modal-submit">Guardar Expediente</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar && overlay) {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            }
+        }
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const btn = document.querySelector('.btn-toggle-dark');
+            if (!body || !btn) return;
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                btn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Carga y personalización inicial del perfil al abrir el sistema
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                const btn = document.querySelector('.btn-toggle-dark');
+                if(btn) btn.textContent = '☀️';
+            }
+
+            // Inyectamos de forma dinámica los datos reales del usuario logeado en el footer lateral
+            const realName = localStorage.getItem('userName') || 'Usuario MediCore';
+            const realRole = localStorage.getItem('userRole') || 'medico';
+            
+            const txtAvatar = document.getElementById('userAvatarText');
+            const txtName = document.getElementById('userProfileName');
+            const txtRole = document.getElementById('userProfileRole');
+
+            if (txtName) txtName.textContent = realName;
+            if (txtRole) txtRole.textContent = realRole.toUpperCase();
+            if (txtAvatar) txtAvatar.textContent = realName.substring(0, 2).toUpperCase();
+        });
+    </script>
+
+    <script src="js/dashboard_modules.js"></script>
+</body>
+</html>

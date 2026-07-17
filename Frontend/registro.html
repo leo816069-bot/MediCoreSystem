@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCore Systems - Registro de Suscripción</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="register-body">
+
+    <!-- Capa difuminada de fondo opcional si tu CSS base la requiere, el fondo ya maneja la imagen tenue -->
+    <div class="register-card">
+        
+        <!-- Encabezado corporativo (Textos centrados) -->
+        <div class="register-header">
+            <h1>Crear Cuenta en <span class="brand-blue">MediCore</span></h1>
+            <p>Configura el entorno clínico de tu práctica profesional</p>
+        </div>
+
+        <form id="formRegistroCompleto">
+            
+            <!-- SECCIÓN 1: DATOS DE ACCESO -->
+            <h3 class="section-title">1. Datos Personales y de Acceso</h3>
+            <div class="register-form-grid">
+                <div class="form-group-block">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="regNombre" placeholder="Ej. Dr. Leobardo Farías" required>
+                </div>
+                <div class="form-group-block">
+                    <label>Nombre de Usuario</label>
+                    <input type="text" id="regUsuario" placeholder="Ej. leofarias" required>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: DATOS DEL CONSULTORIO -->
+            <h3 class="section-title">2. Configuración del Consultorio</h3>
+            <div class="register-form-grid">
+                <div class="form-group-block">
+                    <label>Nombre de la Clínica / Consultorio</label>
+                    <input type="text" id="regConsultorio" placeholder="Ej. Consultorio de Traumatología Norte" required>
+                </div>
+                <div class="form-group-block">
+                    <label>Tipo de Consultorio / Especialidad</label>
+                    <select id="regTipoConsultorio">
+                        <option value="individual">Consultorio Individual</option>
+                        <option value="policlinica">Policlínica / Especialidades Múltiples</option>
+                        <option value="dental">Clínica Dental</option>
+                        <option value="general">Centro de Atención Primaria</option>
+                        <option value="general">CCliica de psicologia</option>
+                        <option value="general">Otro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group-block single-row-input">
+                <label>¿Cuántos usuarios (médicos/asistentes) se registrarán en total?</label>
+                <input type="number" id="regCantidadUsuarios" min="1" max="50" value="1" required>
+            </div>
+
+            <!-- SECCIÓN 3: PLAN DE SUSCRIPCIÓN -->
+            <h3 class="section-title">3. Plan de Suscripción y Forma de Pago</h3>
+            <div class="register-form-grid">
+                <div class="form-group-block">
+                    <label>Nivel de Plan Seleccionado</label>
+                    <select id="regPlan">
+                        <option value="basica">Suscripción Básica (Agenda + 1 Usuario)</option>
+                        <option value="avanzada">Suscripción Avanzada (Agenda + Expedientes + 5 Usuarios)</option>
+                        <option value="completa">Suscripción Completa (Todo incluido ilimitado + Control de Caja)</option>
+                    </select>
+                </div>
+                <div class="form-group-block">
+                    <label>Método de Pago</label>
+                    <select id="regMetodoPago">
+                        <option value="tarjeta">Tarjeta de Crédito / Débito</option>
+                        <option value="transferencia">Transferencia Interbancaria (SPEI)</option>
+                        <option value="paypal">PayPal Comercial</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Botones de Acción con Iluminación Premium -->
+            <button type="submit" class="btn-register-submit">Finalizar Registro y Activar Licencia</button>
+            
+            <div class="register-footer-links">
+                <a href="login.html">¿Ya tienes una cuenta? <span class="login-span">Iniciar Sesión</span></a>
+            </div>
+        </form>
+
+    </div>
+
+    <script src="js/registro_control.js"></script>
+</body>
+</html>

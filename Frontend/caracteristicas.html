@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCore Systems - Características y Empresa</title>
+    <link rel="stylesheet" href="Frontend/css/styles.css">
+    <style>
+        /* Estilos específicos rápidos para mantener consistencia con tu index */
+
+        header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+nav {
+    display: flex;
+    gap: 0.75rem; /* Separación simétrica entre los botones */
+    align-items: center;
+}
+
+/* Estilo base para TODOS los botones del menú (Inicio, Características, Soporte) */
+nav a {
+    text-decoration: none !important; /* Elimina la línea subrayada estándar */
+    color: #0284c7 !important; /* Tono celeste principal corporativo */
+    background-color: #f0f9ff; /* Fondo celeste muy tenue y limpio */
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px; /* Bordes redondeados sutiles acordes a la app */
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease; /* Transición suave para el efecto de brillo */
+    border: 1px solid rgba(2, 132, 199, 0.15);
+    display: inline-block;
+}
+
+/* EFECTO HOVER: Brillo celeste vibrante cuando el cursor pasa por encima */
+nav a:hover {
+    color: #ffffff !important;
+    background-color: #0284c7; /* Se vuelve celeste sólido */
+    border-color: #0284c7;
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.6), 0 4px 6px rgba(2, 132, 199, 0.2); /* Efecto de brillo neón */
+    transform: translateY(-1px); /* Pequeño salto interactivo profesional */
+}
+
+/* Estilo destacado exclusivo para el botón de "Iniciar Sesión" */
+nav a.btn-login {
+    color: #ffffff !important;
+    background-color: #0081c9; /* Un tono celeste un poco más intenso */
+    border-color: #0081c9;
+}
+
+nav a.btn-login:hover {
+    background-color: #026ba3;
+    border-color: #026ba3;
+    box-shadow: 0 0 15px rgba(0, 129, 201, 0.7); /* Brillo más fuerte para destacar la acción */
+}
+        .company-hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(242, 248, 246, 0.85)), 
+                        url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .feature-card-item {
+            background: #ffffff;
+            border: 1px solid rgba(100, 116, 139, 0.15);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            transition: transform 0.3s ease;
+        }
+        .feature-card-item:hover {
+            transform: translateY(-5px);
+        }
+        .feature-card-item h3 {
+            color: #0284c7; /* Tu azul característico */
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header style="background:#ffffff; border-bottom:1px solid #e2e8f0; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:1.4rem; color:#0284c7; font-weight:700;">MediCore<span style="color:#14b8a6; font-weight:300;">Systems</span></div>
+        <nav>
+    <a href="../index.html">Inicio</a> <!-- ⬅️ Cambiado aquí -->
+    <a href="caracteristicas.html">Características</a>
+    <a href="soporte.html">Soporte</a>
+    <a href="login.html" class="btn-login">Iniciar Sesión</a>
+</nav>
+    </header>
+
+    <section class="company-hero">
+        <h1 style="font-size: 2.5rem; color: #1e293b; margin-bottom: 1rem; font-weight: 800;">Sobre Nuestra Empresa</h1>
+        <p style="max-width: 700px; margin: 0 auto; color: #64748b; font-size: 1.1rem; line-height: 1.6;">
+            En <strong>MediCore Systems</strong> nos dedicamos a transformar la administración clínica mediante soluciones digitales intuitivas y centralizadas, diseñadas especialmente para médicos independientes y policlínicas modernas.
+        </p>
+    </section>
+
+    <main class="features-grid">
+        <div class="feature-card-item">
+            <h3> Control de Acceso Real</h3>
+            <p style="color:#64748b; font-size:0.95rem; line-height:1.5;">Cada médico mantiene el aislamiento estricto de sus pacientes, mientras que el personal de recepción gestiona agendas cruzadas de forma segura.</p>
+        </div>
+        <div class="feature-card-item">
+            <h3> Fluidez y Sincronización</h3>
+            <p style="color:#64748b; font-size:0.95rem; line-height:1.5;">Desarrollado con una arquitectura desacoplada en el Backend que permite respuestas inmediatas en sala de espera y actualizaciones en tiempo real.</p>
+        </div>
+        <div class="feature-card-item">
+            <h3> Interfaz Humana e Intuitiva</h3>
+            <p style="color:#64748b; font-size:0.95rem; line-height:1.5;">Diseño responsivo optimizado para su uso táctil en tablets y celulares, con modos de visualización claro y oscuro clínico integrados.</p>
+        </div>
+    </main>
+
+</body>
+</html>
