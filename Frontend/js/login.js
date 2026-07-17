@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const respuesta = await fetch('http://127.0.0.1:5000/api/login', {
+                // 🌐 Conexión directa a la API en producción dentro de Render
+                const respuesta = await fetch('https://medicore-backend-g1p2.onrender.com/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: email, password: password, role: role })
@@ -57,7 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (resultado.success) {
                     alert(`¡Bienvenido, ${resultado.usuario.nombre}!`);
-                    localStorage.setItem('userRole', resultado.usuario.rol || role);
+                    // Se almacena 'role' para emparejar la estructura del backend de Python
+                    localStorage.setItem('userRole', resultado.usuario.role || role);
                     localStorage.setItem('userName', resultado.usuario.nombre);
                     localStorage.setItem('userEmail', email);
                     window.location.href = 'dashboard.html';
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error en la conexión con la API:', error);
                 console.warn('⚠️ Activando Entorno Clínico de Simulación Local (Offline Mode).');
                 
-                // Asegurar persistencia limpia antes de saltar de página
+                // Asegurar persistencia limpia antes de saltar de página en modo offline
                 localStorage.setItem('userRole', role);
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userName', email.split('@')[0]);
