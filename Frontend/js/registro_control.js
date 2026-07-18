@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         nombre: nombre,
                         email: usuario,     // Pasa el correo validado
                         password: password, // Pasa la contraseña validada
-                        role: 'medico'      // Rol por defecto asignado en la base de datos
+                        role: 'admin'       // 👈 CAMBIADO: Rol de Administrador para registro inicial corporativo
                     })
                 });
 
@@ -63,11 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (resultado.success) {
                     alert(`🚀 ¡Registro de Empresa Exitoso en la Nube!\n\n` +
-                          `• Doctor: ${nombre} (${usuario})\n` +
+                          `• Administrador: ${nombre} (${usuario})\n` +
                           `• Clínica: ${consultorio}\n` +
                           `• Licencias Activas: ${usuariosCantidad} Usuario(s)\n` +
                           `• Plan Activado: SUSCRIPCIÓN ${planSeleccionado}\n\n` +
-                          `Tu entorno clínico ha sido configurado en PostgreSQL. Procediendo al inicio de sesión.`);
+                          `Tu entorno clínico ha sido configurado en PostgreSQL como Administrador. Procediendo al inicio de sesión.`);
 
                     // Guardamos la configuración en el navegador para personalizar el Dashboard
                     localStorage.setItem('clinicName', consultorio);
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn('⚠️ Activando Modo Demostración Local (Offline Mode).');
 
                 alert(`🚀 ¡Registro Exitoso (Modo Local Simulado)!\n\n` +
-                      `• Doctor: ${nombre}\n` +
+                      `• Administrador: ${nombre}\n` +
                       `• Clínica: ${consultorio}\n` +
                       `Procediendo al login offline.`);
 

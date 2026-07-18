@@ -20,14 +20,14 @@ def inicializar_base_de_datos():
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
         
-        # Ejecuta la creación de la tabla de forma automática si no existe
+        # 👑 Modificado: Ahora el valor predeterminado a nivel de base de datos es 'admin'
         cur.execute("""
             CREATE TABLE IF NOT EXISTS usuarios (
                 id SERIAL PRIMARY KEY,
                 nombre VARCHAR(150) NOT NULL,
                 email VARCHAR(150) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                rol VARCHAR(50) NOT NULL DEFAULT 'medico'
+                rol VARCHAR(50) NOT NULL DEFAULT 'admin'
             );
         """)
         
@@ -89,7 +89,7 @@ def registro():
     nombre = datos.get('nombre')
     email = datos.get('email')
     password = datos.get('password')
-    rol = datos.get('role', 'medico')
+    rol = datos.get('role', 'admin')  # 👑 Modificado: 'admin' por defecto al registrar nuevas cuentas
 
     try:
         conexion = conectar_db()
@@ -102,7 +102,7 @@ def registro():
             cursor.execute(sql, (nombre, email, password, rol))
             conexion.commit()
         conexion.close()
-        return jsonify({"success": True, "message": "Usuario registrado exitosamente."}), 201
+        return jsonify({"success": True, "message": "Usuario administrador registrado exitosamente."}), 201
     except Exception as e:
         return jsonify({"success": False, "message": f"Error al registrar: {str(e)}"}), 500
 
