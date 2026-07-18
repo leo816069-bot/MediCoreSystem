@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const notasFiltradas = dbNotas.filter(n => n.idPaciente === pacienteEncontrado.id);
+            const notesFiltradas = dbNotas.filter(n => n.idPaciente === pacienteEncontrado.id);
             let htmlNotas = `
                 <div style="background:#f8fafc; padding:1rem; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:1rem;">
                     <strong>Paciente:</strong> ${pacienteEncontrado.nombre} ${pacienteEncontrado.apellido} (ID: #${pacienteEncontrado.id})<br>
@@ -227,10 +227,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            if (notasFiltradas.length === 0) {
+            if (notesFiltradas.length === 0) {
                 htmlNotas += `<p style="color:#64748b; font-style:italic;">No hay notas de evolución registradas para este paciente.</p>`;
             } else {
-                notasFiltradas.forEach(n => {
+                notesFiltradas.forEach(n => {
                     htmlNotas += `
                         <div style="background:#ffffff; padding:1rem; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:0.75rem;">
                             <small style="color:#0284c7; font-weight:700;">Fecha: ${n.fecha}</small>
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (nombre && sintomas && tratamiento) {
                 const ventanaImpresion = window.open('', '_blank');
-                ventanaImpresion.document.write(`<html><head><title>MediCore Systems - Receta Médica</title><style>body { font-family: sans-serif; padding: 3rem; color: #333; } .header { border-bottom: 2px solid #0284c7; padding-bottom: 1rem; margin-bottom: 2rem; } .section { margin-bottom: 1.5rem; } .label { font-weight: bold; color: #0284c7; }</style></head><body><div class="header"><h2>MEDICORE SYSTEMS - RECETA MÉDICA</h2><p>Atención Médica Especializada</p></div><div class="section"><strong>Paciente:</strong> ${nombre} &nbsp;&nbsp;&nbsp;&nbsp; <strong>Edad:</strong> ${edad} años</div><div class="section"><p class="label">Sintomatología Actual:</p><p>${sintomas}</p></div><div class="section"><p class="label">Tratamiento e Indicaciones:</p><p style="white-space: pre-line;">${tratamiento}</p></div><script>window.print();</script></body></html>`);
+                ventanaImpresion.document.write(`<html><head><title>MediCore Systems - Receta Médica</title><style>body { font-family: sans-serif; padding: 3rem; color: #333; } .header { border-bottom: 2px solid #0284c7; padding-bottom: 1rem; margin-bottom: 2rem; } .section { margin-bottom: 1.5rem; } .label { font-weight: bold; color: #0284c7; }</style></head><body><div class="header"><h2>MEDICORE SYSTEMS - RECETA MÉDICA</h2><p>Atención Médica Especializada</p></div><div class="section"><strong>Paciente:</strong> ${nombre} &nbsp;&nbsp;&nbsp;&nbsp; <strong>Edad:</strong> ${edad} años</div><div class="section"><p class="label">Sintomatología Actual:</p><p>${sintomas}</p></div><div class="section"><p class="label">Tratamiento e Indicaciones:</p><p style="white-space: pre-line;">${treatment}</p></div><script>window.print();</script></body></html>`);
                 ventanaImpresion.document.close();
             } else {
                 alert("Por favor rellene los campos obligatorios de la receta.");
@@ -273,23 +273,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.addEventListener('submit', (e) => {
+    document.addEventListener('submit', async (e) => {
         if (e.target && e.target.id === 'formConfigAgenda') {
             e.preventDefault();
             alert(`⚙️ Configuración Guardada con éxito.`);
         }
 
+        // 👑 SECCIÓN MODIFICADA: ALTA DE EMPLEADOS CONECTADA A LA API DE RENDER
         if (e.target && e.target.id === 'formAltaPersonal') {
             e.preventDefault();
+            
             const nombre = document.getElementById('empNombre').value.trim();
+            const email = document.getElementById('empEmail').value.trim();
+            const password = document.getElementById('empPassword').value;
             const rol = document.getElementById('empRol').value;
             const area = document.getElementById('empArea').value.trim();
             const tabla = document.querySelector('.modular-table tbody');
-            if (tabla) {
-                const nuevaFila = document.createElement('tr');
-                nuevaFila.innerHTML = `<td><strong>${rol}</strong></td><td>${nombre}</td><td>${area}</td><td><span style="color:#16a34a; font-weight:600;">Activo</span></td><td><button class="btn-action-view btn-baja-empleado" style="border:1px solid #ef4444; color:#ef4444; background:transparent; padding:4px 8px; border-radius:6px; cursor:pointer;">Dar de Baja</button></td>`;
-                tabla.appendChild(nuevaFila);
-                e.target.reset();
+
+            // Expresiones regulares de validación estricta corporativa
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+            if (!emailRegex.test(email)) {
+                alert('Por favor, ingresa un correo electrónico corporativo válido.');
+                document.getElementById('empEmail').focus();
+                return;
+            }
+
+            if (!passwordRegex.test(password)) {
+                alert('La contraseña provisional debe contener mínimo 8 caracteres, una mayúscula, una minúscula y un número.');
+                document.getElementById('empPassword').focus();
+                return;
+            }
+
+            try {
+                // Envío asíncrono en tiempo real a PostgreSQL en Render
+                const respuesta = await fetch('https://medicore-backend-g1p2.onrender.com/api/registro', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nombre: nombre,
+                        email: email,
+                        password: password,
+                        role: rol.toLowerCase() // Envía 'admin', 'medico' o 'finanzas'
+                    })
+                });
+
+                const resultado = await respuesta.json();
+
+                if (resultado.success) {
+                    alert(`✅ Empleado registrado con éxito en la nube.\nEl usuario '${email}' ya tiene autorización para ingresar al sistema.`);
+                    
+                    if (tabla) {
+                        const nuevaFila = document.createElement('tr');
+                        nuevaFila.innerHTML = `<td><strong>${rol}</strong></td><td>${nombre}</td><td>${area}</td><td><span style="color:#16a34a; font-weight:600;">Activo</span></td><td><button class="btn-action-view btn-baja-empleado" style="border:1px solid #ef4444; color:#ef4444; background:transparent; padding:4px 8px; border-radius:6px; cursor:pointer;">Dar de Baja</button></td>`;
+                        tabla.appendChild(nuevaFila);
+                    }
+                    e.target.reset();
+                } else {
+                    alert(`❌ Error al guardar en la nube: ${resultado.message}`);
+                }
+
+            } catch (error) {
+                console.error('Error al conectar con la API de Render:', error);
+                alert('❌ Error de red: No se pudo conectar con el servidor en Render. Comprueba que el backend no esté dormido.');
             }
         }
 
@@ -487,17 +534,19 @@ function obtenerModuloGestionPersonal() {
         <div class="module-wrapper">
             <div style="background:#ffffff; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:1.5rem;">
                 <h4 style="margin:0 0 1rem 0; color:#1e293b; font-weight:700;">Dar de Alta Nuevo Empleado</h4>
-                <form id="formAltaPersonal" style="display:grid; grid-template-columns: 1fr 1fr 1fr auto; gap:1rem; align-items:end;">
+                <form id="formAltaPersonal" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; align-items:end;">
                     <div><label style="font-size:0.8rem; font-weight:600;">Nombre Completo</label><input type="text" id="empNombre" placeholder="Dr. Felipe Galván" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;" required></div>
-                    <div><label style="font-size:0.8rem; font-weight:600;">Rol Asignado</label><select id="empRol" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;"><option value="Médico">Médico</option><option value="Recepcionista">Recepcionista</option></select></div>
+                    <div><label style="font-size:0.8rem; font-weight:600;">Correo Electrónico (Usuario)</label><input type="email" id="empEmail" placeholder="felipe@medicore.com" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;" required></div>
+                    <div><label style="font-size:0.8rem; font-weight:600;">Contraseña Acceso</label><input type="password" id="empPassword" placeholder="Contraseña de 8+ carac." style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;" required></div>
+                    <div><label style="font-size:0.8rem; font-weight:600;">Rol Asignado</label><select id="empRol" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;"><option value="Médico">Médico</option><option value="Finanzas">Finanzas</option><option value="Admin">Admin</option></select></div>
                     <div><label style="font-size:0.8rem; font-weight:600;">Área / Especialidad</label><input type="text" id="empArea" placeholder="Pediatría" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;" required></div>
-                    <button type="submit" style="background:#0284c7; color:white; border:none; padding:10px 16px; border-radius:6px; font-weight:600; cursor:pointer;">Registrar</button>
+                    <button type="submit" style="background:#0284c7; color:white; border:none; padding:10px 16px; border-radius:6px; font-weight:600; cursor:pointer; height:38px;">Registrar</button>
                 </form>
             </div>
             <table class="modular-table" style="width:100%; text-align:left; border-collapse:collapse;">
                 <thead><tr><th style="padding:10px;">Rol</th><th style="padding:10px;">Nombre del Empleado</th><th style="padding:10px;">Especialidad</th><th style="padding:10px;">Estado</th><th style="padding:10px;">Acciones</th></tr></thead>
                 <tbody>
-                    <tr><td style="padding:10px;"><strong>Médico</strong></td><td style="padding:10px;">Dr. Leobardo Farías Hernández</td><td style="padding:10px;">Traumatología</td><td><span style="color:#16a34a; font-weight:600;">Activo</span></td><td><button class="btn-action-view btn-baja-empleado" style="border:1px solid #ef4444; color:#ef4444; background:transparent; padding:4px 8px; border-radius:6px; cursor:pointer;">Dar de Baja</button></td></tr>
+                    <tr><td style="padding:10px;"><strong>ADMINISTRADOR</strong></td><td style="padding:10px;">Dr. Leobardo Farías Hernández</td><td style="padding:10px;">Traumatología</td><td><span style="color:#16a34a; font-weight:600;">Activo</span></td><td><button class="btn-action-view" style="border:1px solid #ccc; color:#777; background:transparent; padding:4px 8px; border-radius:6px; cursor:not-allowed;" disabled>Principal</button></td></tr>
                 </tbody>
             </table>
         </div>
