@@ -306,6 +306,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // ✨ NUEVA FUNCIÓN: Homologar roles estrictamente para evitar fallos de login por mayúsculas o acentos
+            let rolLimpio = 'medico';
+            if (rol.toLowerCase().includes('admin')) rolLimpio = 'admin';
+            if (rol.toLowerCase().includes('finan')) rolLimpio = 'finanzas';
+
             try {
                 // Envío asíncrono en tiempo real a PostgreSQL en Render
                 const respuesta = await fetch('https://medicore-backend-g1p2.onrender.com/api/registro', {
@@ -315,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         nombre: nombre,
                         email: email,
                         password: password,
-                        role: rol.toLowerCase() // Envía 'admin', 'medico' o 'finanzas'
+                        role: rolLimpio // 👈 Envía estrictamente 'admin', 'medico' o 'finanzas'
                     })
                 });
 
@@ -326,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     if (tabla) {
                         const nuevaFila = document.createElement('tr');
-                        nuevaFila.innerHTML = `<td><strong>${rol}</strong></td><td>${nombre}</td><td>${area}</td><td><span style="color:#16a34a; font-weight:600;">Activo</span></td><td><button class="btn-action-view btn-baja-empleado" style="border:1px solid #ef4444; color:#ef4444; background:transparent; padding:4px 8px; border-radius:6px; cursor:pointer;">Dar de Baja</button></td>`;
+                        nuevaFila.innerHTML = `<td><strong>${rol.toUpperCase()}</strong></td><td>${nombre}</td><td>${area}</td><td><span style="color:#16a34a; font-weight:600;">Activo</span></td><td><button class="btn-action-view btn-baja-empleado" style="border:1px solid #ef4444; color:#ef4444; background:transparent; padding:4px 8px; border-radius:6px; cursor:pointer;">Dar de Baja</button></td>`;
                         tabla.appendChild(nuevaFila);
                     }
                     e.target.reset();
