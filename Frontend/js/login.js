@@ -2,12 +2,33 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('.login-form') || document.querySelector('form');
 
+    // ==========================================================================
+    // FUNCIÓN PARA MOSTRAR / OCULTAR CONTRASEÑA
+    // ==========================================================================
+    const btnTogglePassword = document.getElementById('btnTogglePassword');
+    const loginPasswordInput = document.getElementById('loginPassword');
+
+    if (btnTogglePassword && loginPasswordInput) {
+        btnTogglePassword.addEventListener('click', () => {
+            // Alternar el tipo de input
+            const type = loginPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            loginPasswordInput.setAttribute('type', type);
+            
+            // Alternar el icono visual
+            btnTogglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+    }
+
+    // ==========================================================================
+    // CONTROL DEL ENVÍO DEL FORMULARIO (LOGIN)
+    // ==========================================================================
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const emailInput = document.getElementById('email') || document.querySelector('input[type="email"]');
-            const passwordInput = document.getElementById('password') || document.querySelector('input[type="password"]');
+            // ✨ CORREGIDO: Cambiado de 'password' a 'loginPassword' para emparejar tu HTML
+            const passwordInput = document.getElementById('loginPassword') || document.querySelector('input[type="password"]');
             const roleSelect = document.getElementById('role') || document.querySelector('select'); 
             
             if (!emailInput || !passwordInput) return;
@@ -36,13 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!emailRegex.test(email)) {
                 alert('Por favor, ingresa un correo electrónico válido.');
-                emailInput.focus();
+                if (emailInput) emailInput.focus();
                 return;
             }
 
             if (!passwordRegex.test(password)) {
                 alert('La contraseña debe tener 8 o más caracteres, incluir letras mayúsculas, minúsculas y números, sin caracteres especiales.');
-                passwordInput.focus();
+                if (passwordInput) passwordInput.focus();
                 return;
             }
 
