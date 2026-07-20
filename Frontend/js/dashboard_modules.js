@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!localStorage.getItem('dbNotas')) {
         const notasIniciales = [
-            { idPaciente: "1042", fecha: "2026-07-16", texto: "Paciente refiere apego al tratamiento con Losartán. Cifras tensionales en rangos estables (120/80 mmHg)." }
+            { idPaciente: "1042", fecha: "2026-07-16", texto: "Paciente refiere apego al tratamiento con Losartán. Cifras tensionales en rangos stables (120/80 mmHg)." }
         ];
         localStorage.setItem('dbNotas', JSON.stringify(notasIniciales));
     }
@@ -290,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const area = document.getElementById('empArea').value.trim();
             const tabla = document.querySelector('.modular-table tbody');
 
-            // Expresiones regulares de validación estricta corporativa
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
@@ -306,13 +305,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // ✨ NUEVA FUNCIÓN: Homologar roles estrictamente para evitar fallos de login por mayúsculas o acentos
             let rolLimpio = 'medico';
             if (rol.toLowerCase().includes('admin')) rolLimpio = 'admin';
             if (rol.toLowerCase().includes('finan')) rolLimpio = 'finanzas';
 
             try {
-                // Envío asíncrono en tiempo real a PostgreSQL en Render
                 const respuesta = await fetch('https://medicore-backend-g1p2.onrender.com/api/registro', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -320,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         nombre: nombre,
                         email: email,
                         password: password,
-                        role: rolLimpio // 👈 Envía estrictamente 'admin', 'medico' o 'finanzas'
+                        role: rolLimpio
                     })
                 });
 
@@ -341,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } catch (error) {
                 console.error('Error al conectar con la API de Render:', error);
-                alert('❌ Error de red: No se pudo conectar con el servidor en Render. Comprueba que el backend no esté dormido.');
+                alert('❌ Error de red: No se pudo conectar con el servidor en Render.');
             }
         }
 
@@ -428,11 +425,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ✨ AGREGADO: Envío asíncrono real de citas al Backend en Render
     if (formCitaModal) {
-        formCitaModal.addEventListener('submit', (e) => {
+        formCitaModal.addEventListener('submit', async (e) => {
             e.preventDefault();
-            modalCita.classList.remove('active');
-            formCitaModal.reset();
+
+            const hora = document.getElementById('citaHora').value;
+            const fecha = document.getElementById('citaFecha').value;
+            const motivo = document.getElementById('citaMotivo').value.trim();
+            const nombre = document.getElementById('citaNombre').value.trim();
+            const apellido = document.getElementById('citaApellido').value.trim();
+
+            try {
+                const respuesta = await fetch('https://medicore-backend-g1p2.onrender.com/api/citas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        horario: hora,
+                        fecha: fecha,
+                        motivo: motivo,
+                        nombre: nombre,
+                        apellido: apellido,
+                        estado: 'Agendado'
+                    })
+                });
+
+                const resultado = await respuesta.json();
+
+                if (resultado.success) {
+                    alert('🚀 ¡Cita agendada y guardada con éxito en PostgreSQL!');
+                    if (modalCita) modalCita.classList.remove('active');
+                    formCitaModal.reset();
+                    // Actualiza visualmente la tabla de inmediato
+                    cargarCitasServidor();
+                } else {
+                    alert(`❌ Error al agendar: ${resultado.message}`);
+                }
+            } catch (error) {
+                console.error('Error al enviar la cita al servidor:', error);
+                alert('❌ Error de red: No se pudo conectar con el servidor en Render.');
+            }
         });
     }
 
@@ -574,7 +606,62 @@ function obtenerModuloFinanzasReportes() {
     `;
 }
 
-function obtenerModuloAgendaMedico() { return `<div class="module-wrapper"><div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;"><button class="btn-trigger-appointment" style="background-color: #0284c7; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 700; cursor: pointer;">+ Nueva Cita</button></div><table class="modular-table" style="width:100%; text-align:left; border-collapse:collapse;"><thead><tr><th>Horario</th><th>Paciente / Expediente</th><th>Motivo de Consulta</th><th>Estado</th></tr></thead><tbody><tr><td><strong style="color:#0284c7;">09:00 hrs</strong></td><td>Carlos Mendoza Ruiz <br><small style="color:var(--text-muted)">Exp: #1042</small></td><td>Consulta de seguimiento general</td><td><span style="background:#dcfce7; color:#15803d; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:600;">Atendido</span></td></tr></tbody></table></div>`; }
+function obtenerModuloAgendaMedico() {
+    setTimeout(cargarCitasServidor, 100);
+
+    return `
+        <div class="module-wrapper">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+                <button class="btn-trigger-appointment" style="background-color: #0284c7; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 700; cursor: pointer;">+ Nueva Cita</button>
+            </div>
+            <table class="modular-table" style="width:100%; text-align:left; border-collapse:collapse;">
+                <thead>
+                    <tr>
+                        <th style="padding:10px;">Horario / Fecha</th>
+                        <th style="padding:10px;">Paciente</th>
+                        <th style="padding:10px;">Motivo de Consulta</th>
+                        <th style="padding:10px;">Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCitasMedicasBody">
+                    <tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">🔄 Cargando agenda clínica desde la nube...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    `; 
+}
+
+// ✨ CORREGIDO: Sintaxis limpia de JavaScript para el bloque try/catch
+async function cargarCitasServidor() {
+    const tbody = document.getElementById('tablaCitasMedicasBody');
+    if (!tbody) return;
+
+    try {
+        const respuesta = await fetch('https://medicore-backend-g1p2.onrender.com/api/citas');
+        const resultado = await respuesta.json();
+
+        if (resultado.success && resultado.citas.length > 0) {
+            tbody.innerHTML = '';
+            resultado.citas.forEach(cita => {
+                const colorBadge = cita.estado === 'Atendido' ? 'background:#dcfce7; color:#15803d;' : 'background:#e0f2fe; color:#0369a1;';
+                tbody.innerHTML += `
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding:12px;"><strong style="color:#0284c7;">${cita.horario} hrs</strong><br><small style="color:#64748b;">${cita.fecha}</small></td>
+                        <td style="padding:12px;"><strong>${cita.nombre_paciente} ${cita.apellido_paciente}</strong></td>
+                        <td style="padding:12px;">${cita.motivo}</td>
+                        <td style="padding:12px;"><span style="padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:600; ${colorBadge}">${cita.estado}</span></td>
+                    </tr>
+                `;
+            });
+        } else {
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">📅 No hay citas programadas para los próximos días.</td></tr>`;
+        }
+    } catch (error) {
+        console.error("Error al conectar con API de citas:", error);
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#ef4444;">❌ Error de conexión con el servidor.</td></tr>`;
+    }
+}
+
 function obtenerModuloCaja() { return `<div class="module-wrapper"><div style="background:#ffffff; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:1.5rem;"><h4 style="margin:0 0 1rem 0; color:#1e293b; font-weight:700;">Registrar Operación de Caja</h4><form id="formAltaFinanzas" style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap:1rem; align-items:end;"><div><label style="font-size:0.8rem; font-weight:600;">Tipo Movimiento</label><select id="finTipo" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;"><option value="cobro">Cobro (Ingreso)</option><option value="gasto">Gasto (Egreso)</option></select></div><div><label style="font-size:0.8rem; font-weight:600;">Servicio / Concepto</label><input type="text" id="finServicio" placeholder="Ej. Consulta General" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;" required></div><div><label style="font-size:0.8rem; font-weight:600;">Horario</label><input type="time" id="finHora" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;" required></div><div><label style="font-size:0.8rem; font-weight:600;">Monto</label><input type="number" id="finMonto" placeholder="650" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:4px;" required></div><button type="submit" style="background:#0284c7; color:white; border:none; padding:10px 16px; border-radius:6px; font-weight:600; cursor:pointer;">Procesar</button></form></div><div style="background:#ffffff; padding:1rem; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:1.5rem; height:240px;"><canvas id="graficaOperacionesCaja"></canvas></div></div>`; }
 function obtenerModuloConfigClinica() { return `<div class="module-wrapper" style="background:#ffffff; padding:2rem; border-radius:12px; border:1px solid #e2e8f0;"><h4 style="margin:0 0 1rem 0; color:#1e293b;">Parametrización Operativa de la Agenda</h4><form id="formConfigAgenda" style="display:flex; flex-direction:column; gap:1.25rem; max-width:400px;"><div style="display:flex; flex-direction:column; gap:0.4rem;"><label style="font-weight:600; font-size:0.85rem;">Jornada de Trabajo</label><select id="cfgDias" style="padding:8px; border-radius:6px; border:1px solid #ccc;"><option value="lunes a viernes">Lunes a Viernes</option></select></div><div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;"><div style="display:flex; flex-direction:column; gap:0.4rem;"><label style="font-weight:600; font-size:0.85rem;">Hora Apertura</label><input type="time" id="cfgInicio" value="08:00" style="padding:8px; border-radius:6px; border:1px solid #ccc;"></div><div style="display:flex; flex-direction:column; gap:0.4rem;"><label style="font-weight:600; font-size:0.85rem;">Hora Cierre</label><input type="time" id="cfgFin" value="18:00" style="padding:8px; border-radius:6px; border:1px solid #ccc;"></div></div><button type="submit" style="background:#0284c7; color:white; border:none; padding:10px; border-radius:6px; font-weight:700; cursor:pointer; margin-top:0.5rem;">Guardar Parámetros de Agenda</button></form></div>`; }
 function obtenerModuloAdminDashboard() { return `<div class="module-wrapper"><div style="display:flex; gap:1rem; margin-bottom:1.5rem;"><div style="background:#f8fafc; padding:1rem; border:1px solid #e2e8f0; border-radius:8px; flex:1;"><span>Pacientes en Sistema</span><br><strong>1,240 Casos</strong></div><div style="background:#f8fafc; padding:1rem; border:1px solid #e2e8f0; border-radius:8px; flex:1;"><span>Personal Activo</span><br><strong>14 Profesionales</strong></div><div style="background:#f8fafc; padding:1rem; border:1px solid #e2e8f0; border-radius:8px; flex:1;"><span>Recaudación Total</span><br><strong style="color:#14b8a6;">$92,300.00 MXN</strong></div></div><div style="padding:1.5rem; background:#f0fdf4; border:1px dashed #16a34a; border-radius:8px; color:#166534; font-size:0.9rem;">Consola de Supervisión Central: MediCore Systems.</div></div>`; }

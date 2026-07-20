@@ -1,114 +1,178 @@
+# Backend/Api/app.py
 import os
+import psycopg2
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import psycopg2
-from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
-CORS(app)
+# Permitir peticiones desde tu frontend en GitHub Pages
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-# 🌐 Configuración dinámica de la base de datos
 DATABASE_URL = os.environ.get('DATABASE_URL')
-
-def inicializar_base_de_datos():
-    """Crea la tabla usuarios automáticamente si no existe al arrancar la app."""
-    if not DATABASE_URL:
-        print("⚠️ DATABASE_URL no encontrada. Saltando inicialización automática.")
-        return
-        
-    try:
-        conn = psycopg2.connect(DATABASE_URL)
-        cur = conn.cursor()
-        
-        # 👑 Modificado: Ahora el valor predeterminado a nivel de base de datos es 'admin'
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS usuarios (
-                id SERIAL PRIMARY KEY,
-                nombre VARCHAR(150) NOT NULL,
-                email VARCHAR(150) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                rol VARCHAR(50) NOT NULL DEFAULT 'admin'
-            );
-        """)
-        
-        conn.commit()
-        cur.close()
-        conn.close()
-        print("✅ Estructura de la base de datos verificada/creada correctamente.")
-    except Exception as e:
-        print(f"❌ Error al inicializar la base de datos: {e}")
 
 def conectar_db():
     if DATABASE_URL:
-        # Conexión directa en la nube de Render
-        return psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
+        return psycopg2.connect(DATABASE_URL, sslmode='require')
     else:
-        # Conexión local de respaldo (por si pruebas en tu computadora)
+        # Caída local por si necesitas pruebas en desarrollo
         return psycopg2.connect(
-            host=os.environ.get('DB_HOST', 'localhost'),
-            user=os.environ.get('DB_USER', 'postgres'),
-            password=os.environ.get('DB_PASSWORD', 'password'),
-            database=os.environ.get('DB_NAME', 'medicore_db'),
-            cursor_factory=RealDictCursor
+            dbname="medicore_db",
+            user="postgres",
+            password="password",
+            host="localhost",
+            port="5432"
         )
 
-# 🔐 RUTA: INICIO DE SESIÓN
-@app.route('/api/login', methods=['POST'])
-def login():
-    datos = request.get_json()
-    email = datos.get('email')
-    password = datos.get('password')
-    rol_seleccionado = datos.get('role')
-
+def inicializar_base_de_datos():
     try:
         conexion = conectar_db()
-        with conexion.cursor() as cursor:
-            sql = "SELECT id, nombre, email, rol, password FROM usuarios WHERE email = %s AND rol = %s"
-            cursor.execute(sql, (email, rol_seleccionado))
-            usuario = cursor.fetchone()
+        with conexion.cursor() as cur:
+            # 1. Tabla de Usuarios / Personal Clínico
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS usuarios (
+                    id SERIAL PRIMARY KEY,
+                    nombre VARCHAR(150) NOT NULL,
+                    email VARCHAR(150) UNIQUE NOT NULL,
+                    password VARCHAR(255) NOT NULL,
+                    rol VARCHAR(50) NOT NULL
+                );
+            """)
+            
+            # 2. ✨ NUEVA TABLA: Agenda de Citas Médicas
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS citas (
+                    id SERIAL PRIMARY KEY,
+                    horario VARCHAR(50) NOT NULL,
+                    fecha DATE NOT NULL,
+                    motivo VARCHAR(255) NOT NULL,
+                    nombre_paciente VARCHAR(150) NOT NULL,
+                    apellido_paciente VARCHAR(150) NOT NULL,
+                    estado VARCHAR(50) NOT NULL DEFAULT 'Agendado'
+                );
+            """)
+            conexion.commit()
         conexion.close()
-
-        if usuario and usuario['password'] == password:
-            return jsonify({
-                "success": True,
-                "usuario": {
-                    "nombre": usuario['nombre'],
-                    "email": usuario['email'],
-                    "role": usuario['rol']
-                }
-            }), 200
-        else:
-            return jsonify({"success": False, "message": "Credenciales incorrectas o el rol seleccionado no coincide."}), 401
+        print("✅ Base de datos inicializada correctamente (Tablas: usuarios, citas).")
     except Exception as e:
-        return jsonify({"success": False, "message": f"Error en el servidor: {str(e)}"}), 500
+        print(f"❌ Error al inicializar la base de datos: {str(e)}")
 
-# 📝 RUTA: REGISTRO DE USUARIOS
+# Inicializar la estructura al levantar la app en Render
+inicializar_base_de_datos()
+
+# ==========================================================================
+# RUTAS DE LA API (AUTENTICACIÓN Y PERSONAL)
+# ==========================================================================
+
 @app.route('/api/registro', methods=['POST'])
-def registro():
+def registrar_usuario():
     datos = request.get_json()
     nombre = datos.get('nombre')
     email = datos.get('email')
     password = datos.get('password')
-    rol = datos.get('role', 'admin')  # 👑 Modificado: 'admin' por defecto al registrar nuevas cuentas
+    role = datos.get('role')
+
+    if not all([nombre, email, password, role]):
+        return jsonify({"success": False, "message": "Faltan campos obligatorios."}), 400
 
     try:
         conexion = conectar_db()
         with conexion.cursor() as cursor:
+            # Verificar si el correo ya existe para evitar duplicados indeseados
             cursor.execute("SELECT id FROM usuarios WHERE email = %s", (email,))
             if cursor.fetchone():
-                return jsonify({"success": False, "message": "El correo electrónico ya está registrado."}), 400
+                return jsonify({"success": False, "message": "El correo ya está registrado."}), 400
 
             sql = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (nombre, email, password, rol))
+            cursor.execute(sql, (nombre, email, password, role))
             conexion.commit()
         conexion.close()
-        return jsonify({"success": True, "message": "Usuario administrador registrado exitosamente."}), 201
+        return jsonify({"success": True, "message": "Usuario registrado exitosamente."}), 201
     except Exception as e:
-        return jsonify({"success": False, "message": f"Error al registrar: {str(e)}"}), 500
+        return jsonify({"success": False, "message": f"Error en el servidor: {str(e)}"}), 500
 
-# 🚀 Inicializar la base de datos antes de arrancar el servidor web
-inicializar_base_de_datos()
+@app.route('/api/login', methods=['POST'])
+def login_usuario():
+    datos = request.get_json()
+    email = datos.get('email')
+    password = datos.get('password')
+    role = datos.get('role')
+
+    if not all([email, password, role]):
+        return jsonify({"success": False, "message": "Faltan credenciales."}), 400
+
+    try:
+        conexion = conectar_db()
+        with conexion.cursor() as cursor:
+            # Búsqueda estricta basada en credenciales y rol homologado
+            sql = "SELECT nombre, rol FROM usuarios WHERE email = %s AND password = %s AND rol = %s"
+            cursor.execute(sql, (email, password, role))
+            usuario = cursor.fetchone()
+        conexion.close()
+
+        if usuario:
+            return jsonify({
+                "success": True,
+                "usuario": {
+                    "nombre": usuario[0],
+                    "role": usuario[1]
+                }
+            }), 200
+        else:
+            return jsonify({"success": False, "message": "Las credenciales o el rol seleccionado no coinciden."}), 401
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Error en el servidor: {str(e)}"}), 500
+
+# ==========================================================================
+# RUTAS DE LA API (AGENDA MÉDICA - PERSISTENCIA REAL)
+# ==========================================================================
+
+@app.route('/api/citas', methods=['GET'])
+def obtener_citas():
+    try:
+        conexion = conectar_db()
+        with conexion.cursor() as cursor:
+            # Retornar las citas con formato de fecha legible ISO
+            sql = """SELECT id, horario, to_char(fecha, 'YYYY-MM-DD') as fecha, motivo, 
+                     nombre_paciente, apellido_paciente, estado FROM citas 
+                     ORDER BY fecha ASC, horario ASC"""
+            cursor.execute(sql)
+            columnas = [desc[0] for desc in cursor.description]
+            citas_raw = cursor.fetchall()
+            
+            # Formatear la respuesta como una lista de diccionarios limpios
+            resultado_citas = [dict(zip(columnas, fila)) for fila in citas_raw]
+            
+        conexion.close()
+        return jsonify({"success": True, "citas": resultado_citas}), 200
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Error al consultar citas: {str(e)}"}), 500
+
+@app.route('/api/citas', methods=['POST'])
+def crear_cita():
+    datos = request.get_json()
+    horario = datos.get('horario')
+    fecha = datos.get('fecha')
+    motivo = datos.get('motivo')
+    nombre = datos.get('nombre')
+    apellido = datos.get('apellido')
+    estado = datos.get('estado', 'Agendado')
+
+    if not all([horario, fecha, motivo, nombre, apellido]):
+        return jsonify({"success": False, "message": "Campos de cita incompletos."}), 400
+
+    try:
+        conexion = conectar_db()
+        with conexion.cursor() as cursor:
+            sql = """INSERT INTO citas (horario, fecha, motivo, nombre_paciente, apellido_paciente, estado) 
+                     VALUES (%s, %s, %s, %s, %s, %s)"""
+            cursor.execute(sql, (horario, fecha, motivo, nombre, apellido, estado))
+            conexion.commit()
+        conexion.close()
+        return jsonify({"success": True, "message": "Cita almacenada exitosamente."}), 201
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Error al insertar cita: {str(e)}"}), 500
 
 if __name__ == '__main__':
+    # Render asigna dinámicamente el puerto mediante variable de entorno
     puerto = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=puerto)
